@@ -1,0 +1,520 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@{ string type = "";
+    string path = Request.Url.GetLeftPart(UriPartial.Authority);
+}
+
+<!--First container-->
+<div class="container">
+
+    <!--Section: About-->
+    <section id="about" class="section about mt-4 mb-3">
+
+        <!--Secion heading-->
+        <h1 class="section-heading my-5 py-4 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">About our Spa</h1>
+
+        <!--First row-->
+        <div class="row">
+            <!--First column-->
+            <div class="col-lg-5 col-md-12 mb-5 wow fadeIn" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeIn;">
+
+                <!--Image-->
+                <img src="~/Content/image/img (7).jpg" class="img-fluid z-depth-1" alt="My photo">
+            </div>
+            <!--/First column-->
+            <!--Second column-->
+            <div class="col-lg-6 ml-lg-auto col-md-12 wow fadeIn" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeIn;">
+
+                <!--Title-->
+                <h4 class="grey-text-2 mb-4">Visit our oasis of harmony and relaxation</h4>
+                <!--Description-->
+                <p class="grey-text-2" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta ratione quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+            </div>
+            <!--/Second column-->
+        </div>
+        <!--/First row-->
+
+    </section>
+    <!--/Section: About-->
+
+    <hr class="between-sections">
+
+    <!--Projects section v.3-->
+    <section id="services" class="section mt-4 mb-4">
+        <!--Section heading-->
+        <h1 class="section-heading mt-5 pt-4 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">Our services</h1>
+        <!--Section description-->
+        <p class="section-description wow fadeIn" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <!--First row-->
+        <div class="row">
+
+            <!--First column-->
+            <div class="col-md-12 wow fadeIn" data-wow-delay="0.4s" style="visibility: hidden; animation-delay: 0.4s; animation-name: none;">
+
+                <div class="mb-2">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav md-pills pills-secondary flex-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="@path+'home/index#panel31" role="tab"><i class="fa fa-diamond fa-2x"></i><br> Therapy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="@path#panel32" role="tab"><i class="fa fa-sun-o fa-2x"></i><br> Massage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="@path#panel33" role="tab"><i class="fa fa-star fa-2x"></i><br> Cosmetic</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="@path#panel34" role="tab"><i class="fa fa-coffee fa-2x"></i><br> Harmony</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!--Tab panels-->
+                <div class="tab-content">
+                    <!--Panel 1-->
+                    <div class="tab-pane fade show in active" id="panel31" role="tabpanel">
+                        <br>
+                        <!--First row-->
+                        <div class="row">
+
+                            <!--First column-->
+                            <div class="col-lg-5 col-md-12 mb-5">
+                                <!--Featured image-->
+                                <div class="view overlay hm-white-slight z-depth-1 z-depth-2">
+                                    <img src="~/Content/image/img (9).jpg">
+                                </div>
+                            </div>
+                            <!--/First column-->
+                            <!--Second column-->
+                            <div class="col-lg-6 ml-xl-auto col-md-12 text-left">
+
+                                <!--Title-->
+                                <h4 class="mb-3">Face and body treatments</h4>
+                                <!--Description-->
+                                <p class="grey-text-2" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta ratione quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                            </div>
+                            <!--/Second column-->
+                        </div>
+                        <!--/First row-->
+                    </div>
+                    <!--/.Panel 1-->
+                    <!--Panel 2-->
+                    <div class="tab-pane fade" id="panel32" role="tabpanel">
+                        <br>
+                        <!--First row-->
+                        <div class="row">
+
+                            <!--First column-->
+                            <div class="col-lg-5 col-md-12 mb-5">
+                                <!--Featured image-->
+                                <div class="view overlay hm-white-slight z-depth-1 z-depth-2">
+                                    <img src="~/Content/image/img (6).jpg">
+                                </div>
+                            </div>
+                            <!--/First column-->
+                            <!--Second column-->
+                            <div class="col-lg-6 ml-xl-auto col-md-12 text-left">
+
+                                <!--Title-->
+                                <h4 class="mb-3">Massages</h4>
+                                <!--Description-->
+                                <p class="grey-text-2" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta ratione quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                            </div>
+                            <!--/Second column-->
+                        </div>
+                        <!--/First row-->
+                    </div>
+                    <!--/.Panel 2-->
+                    <!--Panel 3-->
+                    <div class="tab-pane fade" id="panel33" role="tabpanel">
+                        <br>
+                        <!--First row-->
+                        <div class="row">
+
+                            <!--First column-->
+                            <div class="col-lg-5 col-md-12 mb-5">
+                                <!--Featured image-->
+                                <div class="view overlay hm-white-slight z-depth-1 z-depth-2">
+                                    <img src="~/Content/image/img (10).jpg">
+                                </div>
+                            </div>
+                            <!--/First column-->
+                            <!--Second column-->
+                            <div class="col-lg-6 ml-xl-auto col-md-12 text-left">
+
+                                <!--Title-->
+                                <h4 class="mb-3">Cosmetics</h4>
+                                <!--Description-->
+                                <p class="grey-text-2" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta ratione quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                            </div>
+                            <!--/Second column-->
+                        </div>
+                        <!--/First row-->
+                    </div>
+                    <!--/.Panel 3-->
+                    <!--Panel 4-->
+                    <div class="tab-pane fade" id="panel34" role="tabpanel">
+                        <br>
+                        <!--First row-->
+                        <div class="row">
+
+                            <!--First column-->
+                            <div class="col-lg-5 col-md-12 mb-5">
+                                <!--Featured image-->
+                                <div class="view overlay hm-white-slight z-depth-1 z-depth-2">
+                                    <img src="~/Content/image/img (7).jpg">
+                                </div>
+                            </div>
+                            <!--/First column-->
+                            <!--Second column-->
+                            <div class="col-lg-6 ml-xl-auto col-md-12 text-left">
+
+                                <!--Title-->
+                                <h4 class="mb-3">Harmony</h4>
+                                <!--Description-->
+                                <p class="grey-text-2" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi soluta ratione quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+
+                            </div>
+                            <!--/Second column-->
+                        </div>
+                        <!--/First row-->
+                    </div>
+                    <!--/.Panel 4-->
+                </div>
+                <!--/Tab panels-->
+
+            </div>
+            <!--/First column-->
+
+        </div>
+        <!--/First row-->
+    </section>
+    <!--/Projects section v.3-->
+</div>
+<!--/First container-->
+<!--Streak-->
+<div class="streak streak-photo streak-md hm-purple-slight-2" style="background-image: url(&#39;https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20%281%29.jpg&#39;);">
+    <div class="flex-center mask pattern-1">
+        <div class="text-center white-text">
+            <h2 class="h2-responsive my-5 pt-5"><i class="fa fa-quote-left" aria-hidden="true"></i> Find a way to get a full-body massage every day. <i class="fa fa-quote-right" aria-hidden="true"></i></h2>
+            <h5 class="text-center font-italic wow fadeIn" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">~ S. Jay Olshansky</h5>
+        </div>
+    </div>
+</div>
+<!--/Streak-->
+<!--Second container-->
+<div class="container">
+
+    <!--Section: Features v.1-->
+    <section id="attractions" class="section feature-box mt-4 mb-4">
+        <!--Section heading-->
+        <h1 class="section-heading my-5 pt-4 wow fadeIn" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">Attractions</h1>
+        <!--Section sescription-->
+        <p class="section-description wow fadeIn" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum quas, eos officia maiores ipsam ipsum dolores reiciendis ad voluptas, animi obcaecati adipisci sapiente mollitia? Autem delectus quod accusamus.
+        </p>
+        <!--First row-->
+        <div class="row features-big">
+            <!--First column-->
+            <div class="col-md-4 mb-5 wow fadeIn" data-wow-delay="0.4s" style="visibility: hidden; animation-delay: 0.4s; animation-name: none;">
+                <i class="fa fa-music pink-text-2"></i>
+                <h4 class="feature-title grey-text-2">First title is here</h4>
+                <p class="grey-text-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam minima assumenda deleniti hic.</p>
+            </div>
+            <!--/First column-->
+            <!--Second column-->
+            <div class="col-md-4 mb-1 wow fadeIn" data-wow-delay="0.4s" style="visibility: hidden; animation-delay: 0.4s; animation-name: none;">
+                <i class="fa fa-heart-o pink-text-2"></i>
+                <h4 class="feature-title grey-text-2">Second title is here</h4>
+                <p class="grey-text-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam minima assumenda deleniti hic.</p>
+            </div>
+            <!--/Second column-->
+            <!--Third column-->
+            <div class="col-md-4 mb-1 wow fadeIn" data-wow-delay="0.4s" style="visibility: hidden; animation-delay: 0.4s; animation-name: none;">
+                <i class="fa fa-users pink-text-2"></i>
+                <h4 class="feature-title grey-text-2">Third title is here</h4>
+                <p class="grey-text-2 ">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores nam, aperiam minima assumenda deleniti hic.</p>
+            </div>
+            <!--/Third column-->
+        </div>
+        <!--/First row-->
+    </section>
+    <!--/Section: Features v.1-->
+</div>
+
+<div class="container-fluid background-grey">
+    <div class="container">
+        <!--Section: Pricing v.5-->
+        <section id="pricing" class="section pb-5">
+            <!--Secion heading-->
+            <h1 class="section-heading my-5 pt-5 wow fadeIn" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">Our top offers</h1>
+            <!--Grid row-->
+            <div class="row">
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-r">
+                    <!--Card-->
+                    <div class="pricing-card naked-card">
+                        <!--Content-->
+                        <div class="card-body purple-text-2">
+                            <h5>Spa &amp; Beauty</h5>
+                            <!--Price-->
+                            <div class="price">
+                                <h1>199</h1>
+                            </div>
+                            <!--/.Price-->
+                            <ul class="striped">
+                                <li>
+                                    <p><strong>3</strong> attraction</p>
+                                </li>
+                                <li>
+                                    <p><strong>10</strong> lorem ipsum</p>
+                                </li>
+                                <li>
+                                    <p><strong>15</strong> lorem ipsum</p>
+                                </li>
+                                <li>
+                                    <p><strong>200</strong> lorem ipsum</p>
+                                </li>
+                            </ul>
+                            <a class="btn btn-purple-2 btn-lg waves-effect waves-light">Buy now</a>
+                        </div>
+                    </div>
+                    <!--Card-->
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-r">
+                    <!-- Card -->
+                    <div class="card card-image" style="background-image: url(&#39;https://mdbootstrap.com/img/Photos/Others/pricing-table%20(7).jpg&#39;);">
+                        <!-- Content -->
+                        <div class="text-white text-center pricing-card d-flex align-items-center rgba-black-strong py-3 px-3">
+                            <!--Content-->
+                            <div class="card-body">
+                                <h5>Relax Day</h5>
+                                <!--Price-->
+                                <div class="price pt-0">
+                                    <h1 class="px-0 mx-0">299</h1>
+                                </div>
+                                <!--/.Price-->
+                                <ul class="striped">
+                                    <li>
+                                        <p><strong>5</strong> attractions</p>
+                                    </li>
+                                    <li>
+                                        <p><strong>20</strong> lorem ipsum</p>
+                                    </li>
+                                    <li>
+                                        <p><strong>50</strong> lorem ipsum</p>
+                                    </li>
+                                    <li>
+                                        <p><strong>300</strong> lorem ipsum</p>
+                                    </li>
+                                </ul>
+                                <a class="btn btn-lg btn-outline-white waves-effect waves-light">Buy now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Card-->
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-r">
+                    <!--Card-->
+                    <div class="pricing-card naked-card">
+                        <!--Content-->
+                        <div class="card-body purple-text-2">
+                            <h5>Massage</h5>
+                            <!--Price-->
+                            <div class="price">
+                                <h1>99</h1>
+                            </div>
+                            <!--/.Price-->
+                            <ul class="striped">
+                                <li>
+                                    <p><strong>2</strong> attrations</p>
+                                </li>
+                                <li>
+                                    <p><strong>20</strong> lorem ipsum</p>
+                                </li>
+                                <li>
+                                    <p><strong>35</strong> lorem ipsum</p>
+                                </li>
+                                <li>
+                                    <p><strong>100</strong> lorem ipsum</p>
+                                </li>
+                            </ul>
+                            <a class="btn btn-purple-2 btn-lg waves-effect waves-light"> Buy now</a>
+                        </div>
+                    </div>
+                    <!--Card-->
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </section>
+        <!--/Section: Pricing v.5-->
+
+    </div>
+</div>
+<div class="container">
+    <!--Section: Testimonials v.3-->
+    <section id="testimonials" class="section team-section">
+        <!--Section heading-->
+        <h1 class="section-heading mt-5 pt-5">What Clients said:</h1>
+        <!--Section description-->
+        <p class="section-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet numquam iure provident voluptate esse quasi, veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p>
+        <!--First row-->
+        <div class="row text-center">
+            <!--First column-->
+            <div class="col-md-4 mb-r">
+                <div class="testimonial">
+                    <!--Avatar-->
+                    <div class="avatar">
+                        <img src="~/Content/image/img (1).jpg" class="rounded-circle img-fluid z-depth-1">
+                    </div>
+                    <!--Content-->
+                    <h4>Anna Deynah</h4>
+                    <p> </p><div class="grey-text-2"><i class="fa fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id officiis hic tenetur quae quaerat ad velit ab.<p></p></div>
+                    <!--Review-->
+                    <div class="pink-text-2">
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star-half-full"> </i>
+                    </div>
+                </div>
+            </div>
+            <!--/First column-->
+            <!--Second column-->
+            <div class="col-md-4 mb-r">
+                <div class="testimonial">
+                    <!--Avatar-->
+                    <div class="avatar">
+                        <img src="~/Content/image/img (2).jpg" class="rounded-circle img-fluid z-depth-1">
+                    </div>
+                    <!--Content-->
+                    <h4>Kate Doe</h4>
+                    <p></p><div class="grey-text-2"><i class="fa fa-quote-left"></i> Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi.<p></p></div>
+                    <!--Review-->
+                    <div class="pink-text-2 mb-5">
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                    </div>
+                </div>
+            </div>
+            <!--/Second column-->
+            <!--Third column-->
+            <div class="col-md-4 mb-r">
+                <div class="testimonial">
+                    <!--Avatar-->
+                    <div class="avatar">
+                        <img src="~/Content/image/img (5).jpg" class="rounded-circle img-fluid z-depth-1">
+                    </div>
+                    <!--Content-->
+                    <h4>Maria Kate</h4>
+                    <p></p><div class="grey-text-2"><i class="fa fa-quote-left"></i> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.<p></p></div>
+                    <!--Review-->
+                    <div class="pink-text-2">
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star-o"> </i>
+                    </div>
+                </div>
+            </div>
+            <!--/Third column-->
+        </div>
+        <!--/First row-->
+    </section>
+</div>
+
+<div class="container-fluid background-grey">
+
+    <!--First row-->
+    <div class="row pb-4 pt-4 wow fadeIn" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">
+        <!--First column-->
+        <div class="col-md-12  text-center">
+
+
+            <!--Title-->
+            <h2 class="mb-4 mt-5">Visit Our Spa</h2>
+
+            <!--Reservation button-->
+            <a href="@path#!" class="mb-5 btn btn-lg btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal-reservation">Reservation popup</a>
+            <a href="@path#!" class="mb-5 btn btn-lg btn-primary  waves-effect waves-light" data-toggle="modal" data-target="#modal-contact">Contact form</a>
+
+        </div>
+        <!--/First column-->
+    </div>
+    <!--/First row-->
+</div>
+
+<div class="container">
+    <!--Section: Newsletter-->
+    <section id="newsletter" class="section mt-5 mb-5 pb-5 wow fadeIn newsletter" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">
+
+        <!--Section heading-->
+        <h1 class="section-heading my-5 py-4">Subscribe for news and discounts</h1>
+        <!--Section sescription-->
+        <!--First row-->
+        <div class="row">
+
+            <!--First column-->
+            <div class="col-lg-6 mb-3">
+
+                <!--Form without header-->
+                <div class="card">
+                    <div class="card-body">
+                        <!--Header-->
+                        <div class="text-center grey-text-2">
+                            <h4><i class="fa fa-pencil grey-text-2"></i> Newsletter</h4>
+                            <br>
+                        </div>
+                        <!--Body-->
+                        <p>We'll write rarely, but only the best content.</p>
+                        <br>
+                        <!--Body-->
+                        <div class="md-form">
+                            <i class="fa fa-user prefix"></i>
+                            <input type="text" id="form3" class="form-control">
+                            <label for="form3">Your name</label>
+                        </div>
+                        <div class="md-form">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" id="form2" class="form-control">
+                            <label for="form2">Your email</label>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-info waves-effect waves-light">Send</button>
+                        </div>
+                    </div>
+                </div>
+                <!--/Form without header-->
+            </div>
+            <!--First column-->
+
+            <div class="col-lg-6">
+
+                <img src="~/Content/image/img (8).jpg" class="img-fluid z-depth-1">
+
+            </div>
+
+        </div>
+        <!--/First row-->
+
+    </section>
+    <!--/Section: Newsletter-->
+
+</div>
