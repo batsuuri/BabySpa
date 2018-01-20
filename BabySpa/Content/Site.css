@@ -16,8 +16,81 @@ select,
 textarea {
     max-width: 280px;
 }*/
+.navbar:not(.top-nav-collapse) {
+    background: 0 0;
+    background-color: transparent !important;
+}
+@media (min-width: 769px) {
+    .navbar:not(.top-nav-collapse) {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
 @media (max-width: 740px) {
     .full-height, .full-height body, .full-height header, .full-height header .view {
         height: 700px;
     }
+}
+.spa-lp .navbar {
+    background-color: #6fc7bf
+}
+
+@media (max-width:768px) {
+    .spa-lp .navbar:not(.top-nav-collapse) {
+        background: #6fc7bf
+    }
+}
+
+.spa-lp .page-footer {
+    background-color: #33b5e5
+}
+
+.spa-lp .md-pills.pills-secondary .nav-item .nav-link.active {
+    background-color: #2BBBAD !important
+}
+
+/*.spa-lp .btn-primary {
+    background: #ff82ad
+}
+
+    .spa-lp .btn-primary:focus, .spa-lp .btn-primary:hover {
+        background-color: #ff9cbe !important
+    }*/
+
+.spa-lp .pricing-card h4 {
+   margin-bottom:0px;
+}
+.naked-card h4 {
+    margin-top: 1.2rem;
+}
+.spa-lp .pricing-card .price h6:after {
+    content: "₮/60 мин"
+}
+.spa-lp .pricing-card .price h6 {
+    margin-bottom: 20px;
+}
+.spa-lp .btn-info:focus, .spa-lp .btn-info:hover {
+    background-color: #7cdbff !important
+}
+.card-body h5 {
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+@media (min-width:1025px) {
+    .spa-lp .newsletter img {
+        max-width: 104%
+    }
+}
+.hm-black-strong-1 .full-bg-img, .hm-black-strong-1 .mask {
+    background-color: rgba(0,0,0,.7);
+}
+.background-grey {
+    background-color: #eee;
+}
+.pink-text-2 {
+    color: #ff82ad !important;
+}
+.purple-text-2 {
+    color: #9958e9 !important;
 }
