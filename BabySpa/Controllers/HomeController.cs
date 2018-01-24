@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BabySpa.Controllers
+namespace BabySpa
 {
     public class HomeController : Controller
     {
@@ -25,6 +25,18 @@ namespace BabySpa.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+        public ActionResult Order(OrderViewModel model)
+        {
+            return View();
+        }
+        public JsonResult GetCust(string name)
+        {
+            return "";
+        }
+        public JsonResult GetChild(string name)
+        {
+            return "";
         }
     }
 }
