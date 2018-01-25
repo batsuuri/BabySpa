@@ -37,8 +37,14 @@
         <!--Navbar-->
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar" style="">
             <div class="container">
-                <a class="navbar-brand waves-effect waves-light" href="#"><strong>Navbar</strong></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="">
+                <a class="navbar-brand waves-effect waves-light logo" href="#">
+                    <img src="~/img/logo_png_1.png" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" 
+                        aria-controls="navbarSupportedContent" 
+                        aria-expanded="false"
+                        aria-label="Toggle navigation" style="">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -54,7 +60,7 @@
                             <a class="nav-link waves-effect waves-light" href="#services" data-offset="100">Үйлчилгээ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" href="#attractions" data-offset="100">Бүтээгдэхүүн</a>
+                            <a class="nav-link waves-effect waves-light" href="#pricing" data-offset="100">Бүтээгдэхүүн</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link waves-effect waves-light" href="#testimonials" data-offset="100">Opinions</a>
@@ -69,13 +75,13 @@
                     <!--Social Icons-->
                     <ul class="navbar-nav nav-flex-icons">
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light"><i class="fa fa-facebook"></i></a>
+                            <a class="nav-link waves-effect waves-light" target="_blank" href="https://www.facebook.com/Babyspamongolia/"><i class="fa fa-facebook"></i></a>
                         </li>
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link waves-effect waves-light"><i class="fa fa-twitter"></i></a>
-                        </li>
+                        </li>*@
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light"><i class="fa fa-instagram"></i></a>
+                            <a class="nav-link waves-effect waves-light" target="_blank" href="https://www.instagram.com/babyspamongolia/"><i class="fa fa-instagram"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -84,13 +90,13 @@
         <!--/Navbar-->
         <!-- Intro Section -->
         <div id="home" class="view hm-black-strong-1 jarallax" data-jarallax='{"speed": 0.2}' 
-             style="background-image: url('https://mdbootstrap.com/img/Photos/Horizontal/Relax/full%20page/spa.jpg');">
+             style="background-image: url('img/IMG_0696.JPG');">
             <div class="full-bg-img">
                 <div class="container flex-center">
                     <div class="row smooth-scroll">
                         <div class="col-md-12 white-text text-center">
                             <div class="wow fadeInDown" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInDown;">
-                                <h3 class="display-3 font-bold mb-2">Baby Spa Mongolia</h3>
+                                <h3 class="display-3 font-bold mb-2" id="home_desc">Baby Spa</h3>
                                 <hr class="hr-light">
                                 <h4 class="subtext-header mt-4 mb-5">-Бяцхан үрсийн алжаал тайлах төв-<p> Тавтай үйлчлүүлээрэй.</p></h4>
                             </div>
