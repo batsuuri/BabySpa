@@ -1,0 +1,72 @@
+﻿@model BabySpa.OrderViewModel
+
+
+@using (Html.BeginForm("Home","Order"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="modal-header text-center">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title w-100">Захиалгын хуудас</h4>
+        </div>
+        <!--Body-->
+        <div class="modal-body">
+            <div class="md-form">
+                @Html.TextBoxFor(m => m.Order.cust.father_name, new { @class = "form-control validate", @placeholder = "", maxlength = 50 })
+                @Html.LabelFor(m => m.Order.cust.father_name, "Таны овог нэр", new { @class = "active" })
+            </div>
+            <div class="md-form">
+                @Html.TextBoxFor(m => m.Order.cust.contact_phone, new { @class = "form-control validate", @placeholder = "", maxlength = 150 })
+                @Html.LabelFor(m => m.Order.cust.contact_phone, "Утасны дугаар", new { @class = "active" })
+            </div>
+            @*<div class="md-form">
+                @Html.TextBoxFor(m => m.Order.cust.email, new { @class = "form-control", @placeholder = "", maxlength = 150 })
+                @Html.LabelFor(m => m.Order.cust.email, "Имэйл хаяг")
+
+            </div>*@
+            <div class="md-form">
+                @Html.TextBoxFor(m => m.Order.order_date, new { @class = "datepicker form-control", @placeholder = "" })
+                @Html.LabelFor(m => m.Order.order_date, "Өдөрөө сонгоно уу", new { @class = "active" })
+            </div>
+            <div class="md-form">
+                @Html.LabelFor(m => m.Order.branch_id, "Салбар", new { @class = "active" })
+                @Html.DropDownListFor(
+                             m => m.Order.branch_id,
+                             BabySpa.App.getBranchList(), new { @class = "mdb-select" }
+                             )
+            </div>
+            <div class="md-form">
+                @Html.LabelFor(m => m.List[0].prod_id, "Багц", new { @class = "active" })
+                @Html.DropDownListFor(
+                             m => m.List[0].prod_id,
+                             BabySpa.App.getServiceList(), new { @class = "mdb-select" }
+                             )
+            </div>
+            <!--Basic textarea-->
+            <div class="md-form">
+                @Html.TextAreaFor(m => m.Order.cust_note, new { @class = "md-textarea", @placeholder = "", rows = 3, maxlength = "500" })
+                <label for="Order.cust_note" class="active">Хэрэглэгчийн тэмдэглэл</label>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-lg btn-purple-2 btn-primary waves-effect">Илгээх</button>
+                <p class="text-muted">Захиалгыг хүлээж аваад бид эргэж холбогдон баталгаажуулах болно.</p>
+
+                <div class="call">
+                    <p>Эсвэл утсаар захиалга өгөх үү? <span class="cf-phone"><i class="fa fa-phone"></i>76002288</span></p>
+                </div>
+            </div>
+        </div>
+        <!--Footer-->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal">Хаах</button>
+        </div>
+    </div>
+}
+
+@section scripts {
+   
+
+}

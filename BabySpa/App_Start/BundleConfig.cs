@@ -26,6 +26,9 @@ namespace BabySpa
             bundles.Add(new ScriptBundle("~/bundles/mdb").Include(
                       "~/Scripts/mdb.min.js",
                       "~/Scripts/popper.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/vendors").Include(
+             "~/Scripts/moment.js"
+            , "~/Scripts/bootstrap-datetimepicker.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
@@ -33,6 +36,9 @@ namespace BabySpa
                       "~/Content/font-awesome.min.css",
                       "~/Content/mdb.min.css",
                       "~/Content/Site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/vendors").Include(
+                       "~/Content/bootstrap-datetimepicker.css"));
 
         }
     }

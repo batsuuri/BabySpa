@@ -1,0 +1,77 @@
+﻿[
+  {
+    "branch_id": "1",
+    "time_table": [
+      {
+        "day": "1",
+        "start_time": "10",
+        "end_time": "19"
+      },
+      {
+        "day": "2",
+        "start_time": "10",
+        "end_time": "19"
+      },
+      {
+        "day": "3",
+        "start_time": "10",
+        "end_time": "19"
+      },
+      {
+        "day": "4",
+        "start_time": "10",
+        "end_time": "19"
+      },
+      {
+        "day": "5",
+        "start_time": "10",
+        "end_time": "19"
+      },
+      {
+        "day": "6",
+        "start_time": "10",
+        "end_time": "19"
+      }
+    ]
+  },
+  {
+    "branch_id": "2",
+    "time_table": [
+      {
+        "day": "1",
+        "start_time": "9",
+        "end_time": "22"
+      },
+      {
+        "day": "2",
+        "start_time": "9",
+        "end_time": "22"
+      },
+      {
+        "day": "3",
+        "start_time": "9",
+        "end_time": "22"
+      },
+      {
+        "day": "4",
+        "start_time": "9",
+        "end_time": "22"
+      },
+      {
+        "day": "5",
+        "start_time": "9",
+        "end_time": "22"
+      },
+      {
+        "day": "6",
+        "start_time": "9",
+        "end_time": "22"
+      },
+      {
+        "day": "7",
+        "start_time": "9",
+        "end_time": "22"
+      }
+    ]
+  }
+]

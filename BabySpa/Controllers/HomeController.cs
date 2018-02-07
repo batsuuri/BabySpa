@@ -26,17 +26,27 @@ namespace BabySpa
 
             return View();
         }
+        public ActionResult Order()
+        {
+            OrderViewModel model = new OrderViewModel();
+            model.List = new List<OrderService>();
+            return PartialView("_Order",model);
+        }
         public ActionResult Order(OrderViewModel model)
         {
             return View();
         }
         public JsonResult GetCust(string name)
         {
-            return "";
+            return Json("");
         }
         public JsonResult GetChild(string name)
         {
-            return "";
+            return Json("");
+        }
+        public JsonResult GetTimeTable(string day)
+        {
+            return Json("");
         }
     }
 }

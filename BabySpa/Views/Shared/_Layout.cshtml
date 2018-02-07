@@ -1,4 +1,9 @@
 ﻿<!DOCTYPE html>
+
+@using System.Text
+
+@model OrderViewModel
+
 <html lang="en" class="full-height">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,17 +28,27 @@
     <!-- /Twitter Card -->
 
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/vendors")
     @Scripts.Render("~/bundles/modernizr")
 
 
-    
+
 </head>
 @{ string type = "";
     string path = Request.Url.GetLeftPart(UriPartial.Authority);
+    var routeValues = this.ViewContext.RouteData.Values;
+    var varController = routeValues["controller"] as string;
+    var varAction = routeValues["action"] as string;
+    bool isHome = varController.ToLower() == "home" && varAction.ToLower() == "index";
+    string header_class = "";
+    if (!isHome)
+    {
+        header_class = "header_tiny";
+    }
 }
 <body class="cyan-skin intro-page spa-lp">
     <!--Navigation & Intro-->
-    <header>
+    <header class="@header_class">
         <!--Navbar-->
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar" style="">
             <div class="container">
@@ -41,8 +56,8 @@
                     <img src="~/img/logo_png_1.png" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" 
-                        aria-controls="navbarSupportedContent" 
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
                         aria-expanded="false"
                         aria-label="Toggle navigation" style="">
                     <span class="navbar-toggler-icon"></span>
@@ -50,11 +65,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!--Links-->
                     <ul class="navbar-nav mr-auto smooth-scroll">
+
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" href="#home">Нүүр</a>
+                            <a class="nav-link waves-effect waves-light" href='@Url.Action("Index","Home")' data-offset="100">Нүүр</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" href="#about" data-offset="100">Тухай</a>
+                           @Html.ActionLink("Тухай", "About","Home",null, new { @class= "nav-link waves-effect waves-light" })
+                            @*<a class="nav-link waves-effect waves-light" data-action="@Url.Action("About","Home")">Тухай</a>*@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link waves-effect waves-light" href="#services" data-offset="100">Үйлчилгээ</a>
@@ -89,8 +106,10 @@
         </nav>
         <!--/Navbar-->
         <!-- Intro Section -->
-        <div id="home" class="view hm-black-strong-1 jarallax" data-jarallax='{"speed": 0.2}' 
-             style="background-image: url('img/IMG_0696.JPG');">
+        @if (isHome)
+    {
+        <div id="home" class="view hm-black-strong-1 jarallax" data-jarallax='{"speed": 0.2}'
+             style="background-image: url('img/header_main.JPG');">
             <div class="full-bg-img">
                 <div class="container flex-center">
                     <div class="row smooth-scroll">
@@ -106,50 +125,15 @@
                 </div>
             </div>
         </div>
+}
+
         <!--Modal Reservation-->
         <div class="modal fade modal-ext" id="modal-reservation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <!--Content-->
                 <div class="modal-content">
                     <!--Header-->
-                    <div class="modal-header text-center">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                        <h4 class="modal-title w-100">Захиалгын хуудас</h4>
-                    </div>
-                    <!--Body-->
-                    <div class="modal-body">
-                        <div class="md-form">
-                            <input type="text" id="form22" class="form-control">
-                            <label for="form42">Таны овог нэр</label>
-                        </div>
-                        <div class="md-form">
-                            <input type="text" id="form32" class="form-control">
-                            <label for="form34">Имэйл хаяг</label>
-                        </div>
-                        <div class="md-form">
-                            <input type="text" id="form32" class="form-control">
-                            <label for="form34">Утасны дугаар</label>
-                        </div>
-                        <!--Basic textarea-->
-                        <div class="md-form">
-                            <textarea type="text" id="form7" class="md-textarea"></textarea>
-                            <label for="form7">Цаг</label>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-lg btn-purple-2 btn-primary waves-effect">Илгээх</button>
-                            <p class="text-muted">Захиалгыг хүлээж аваад бид эргэж холбогдон баталгаажуулах болно.</p>
-
-                            <div class="call">
-                                <p>Эсвэл утсаар захиалга өгөх үү? <span class="cf-phone"><i class="fa fa-phone"></i>76002288</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Footer-->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal">Хаах</button>
-                    </div>
+                    @{Html.RenderPartial("_Order");}
                 </div>
                 <!--/Content-->
             </div>
@@ -323,10 +307,16 @@
         })
 
         // Material Select Initialization
+
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/vendors")
+    <script type="text/javascript">
         $(document).ready(function () {
             $('.mdb-select').material_select();
         });
-
+        $('#Order_order_date').datetimepicker({ format: 'L' });
     </script>
     @RenderSection("scripts", required: false)
 </body>

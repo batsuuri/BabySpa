@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BabySpa.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,27 @@ namespace BabySpa
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+        void Application_Error(object sender, EventArgs e)
+        {
+            try
+            {
+                Exception exception = Server.GetLastError();
+                if (exception is HttpUnhandledException)
+                {
+                    exception = exception.InnerException;
+                }
+                if (exception != null)
+                {
+                    Main.ErrorLog(Request.QueryString.ToString(), exception);
+                }
+                Server.ClearError();
+                //Response.Redirect("~/Error/Index");
+            }
+            catch (Exception ex)
+            {
+                //Main.ErrorLog("Handling application error ", ex);
+            }
         }
     }
 }

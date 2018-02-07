@@ -52,69 +52,93 @@ textarea {
     width: 100px;
     height: 100px;
 }
-
-.navbar-brand {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    margin-top: -5px;
-    margin-bottom: -45px;
+.bootstrap-datetimepicker-widget {
+    font-family: "Roboto";
 }
-.navbar:not(.top-nav-collapse) {
-    background: 0 0;
-    background-color: transparent !important;
+.form-control {
+    padding: .1rem 0 .3rem;
+    line-height: 1.2;
 }
-@media (min-width: 769px) {
-    .navbar:not(.top-nav-collapse) {
-        -webkit-box-shadow: none;
-        box-shadow: none;
+.header_tiny {
+    height: 70px !important;
+    background-color: #6fc7bf;
+    color:white;
+}
+@media (max-width: 768px) {
+    #navbarSupportedContent {
+       background-color: rgba(0, 0, 0, 0.7);
+    }
+    .nav-item{
+        text-align:right;
+        padding-right:15px;
     }
 }
-@media (min-width: 600px) {
-    .navbar.scrolling-navbar.top-nav-collapse {
-        padding-top: 10px;
-        padding-bottom: 10px;
-        box-shadow: 0 14px 20px -12px rgba(0,0,0,0.5);
-        /*background-color:white;
+    .navbar-brand {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-top: -5px;
+        margin-bottom: -45px;
+    }
+
+    .navbar:not(.top-nav-collapse) {
+        background: 0 0;
+        background-color: transparent !important;
+    }
+
+    @media (min-width: 769px) {
+        .navbar:not(.top-nav-collapse) {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+    }
+
+    @media (min-width: 600px) {
+        .navbar.scrolling-navbar.top-nav-collapse {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            box-shadow: 0 14px 20px -12px rgba(0,0,0,0.3);
+            /*background-color:white;
         color:black;
         position:fixed !important;
             top:0;*/
+        }
     }
-}
-@media (min-width: 600px) {
-    .navbar.scrolling-navbar.top-nav-collapse div .navbar-brand {
-        box-shadow: 0 14px 20px -12px rgba(0,0,0,0.5);
-        border-radius:10em;
+
+    @media (min-width: 600px) {
+        .navbar.scrolling-navbar.top-nav-collapse div .navbar-brand {
+            box-shadow: 0 14px 20px -12px rgba(0,0,0,0.5);
+            border-radius: 10em;
+        }
     }
-}
-.md-pills .nav-link {
-    color: #d82364;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-    background-color: #1ee6ac8f;
-}
-@media (max-width: 740px) {
-    .full-height, .full-height body, .full-height header, .full-height header .view {
-        height: 700px;
+
+    .md-pills .nav-link {
+        color: #d82364;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+        background-color: #1ee6ac8f;
     }
-}
-.spa-lp .navbar {
-    background-color: #6fc7bf
-}
 
-@media (max-width:768px) {
-    .spa-lp .navbar:not(.top-nav-collapse) {
-        background: #6fc7bf
+    @media (max-width: 740px) {
+        .full-height, .full-height body, .full-height header, .full-height header .view {
+            height: 700px;
+        }
     }
-}
 
-.spa-lp .page-footer {
-    /*background-color: #33b5e5*/
-}
+    .spa-lp .navbar {
+        background-color: #6fc7bf
+    }
 
-.spa-lp .md-pills.pills-secondary .nav-item .nav-link.active {
-    background-color: #2BBBAD !important
-}
+    @media (max-width:768px) {
+        .spa-lp .navbar:not(.top-nav-collapse) {
+            background: #6fc7bf
+        }
+    }
 
-/*.spa-lp .btn-primary {
+
+    .spa-lp .md-pills.pills-secondary .nav-item .nav-link.active {
+        background-color: #2BBBAD !important
+    }
+
+    /*.spa-lp .btn-primary {
     background: #ff82ad
 }
 
@@ -122,53 +146,68 @@ textarea {
         background-color: #ff9cbe !important
     }*/
 
-.spa-lp .pricing-card h4 {
-    margin-bottom: 0px;
-}
-.naked-card h4 {
-}
-.spa-lp .pricing-card .price h6:after {
-    content: "₮/60 мин"
-}
-.spa-lp .pricing-card .price h6 {
-    margin-bottom: 20px;
-}
-.spa-lp .btn-info:focus, .spa-lp .btn-info:hover {
-    background-color: #7cdbff !important
-}
-.card-body h5 {
-    font-weight: 500;
-    margin-bottom: 6px;
-}
-@media (min-width:1025px) {
-    .spa-lp .newsletter img {
-        max-width: 104%
+    .spa-lp .pricing-card h4 {
+        margin-bottom: 0px;
     }
-}
-.hm-black-strong-1 .full-bg-img, .hm-black-strong-1 .mask {
-    background-color: rgba(0,0,0,.5);
-}
-.background-grey {
-    background-color: #eee;
-}
-.background-nomin {
-    background-color: #00ADC3;
-}
-.pink-text-2 {
-    color: #ff82ad !important;
-}
-.purple-text-2 {
-    color: #9958e9 !important;
-}
-.section-scaled {
-    /*margin: -110px 30px 0 !important;*/
-    border-radius: 10px 10px 0px 0px;
-    z-index:3;
-}
-.section-description {
-    color: #333333;
-}
-.tab-icon {
-    max-width: 36px;
-    max-height: 36px;
-}
+
+    .spa-lp .pricing-card .price h6:after {
+        content: "₮/60 мин"
+    }
+
+    .spa-lp .pricing-card .price h6 {
+        margin-bottom: 20px;
+    }
+
+    .spa-lp .btn-info:focus, .spa-lp .btn-info:hover {
+        background-color: #7cdbff !important
+    }
+
+    .card-body h5 {
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    @media (min-width:1025px) {
+        .spa-lp .newsletter img {
+            max-width: 104%
+        }
+    }
+
+    .hm-black-strong-1 .full-bg-img, .hm-black-strong-1 .mask {
+        background-color: rgba(0,0,0,.5);
+    }
+
+    .background-grey {
+        background-color: #eee;
+    }
+
+    .background-nomin {
+        background-color: #00ADC3;
+    }
+
+    .pink-text-2 {
+        color: #ff82ad !important;
+    }
+
+    .purple-text-2 {
+        color: #9958e9 !important;
+    }
+
+    .section-scaled {
+        /*margin: -110px 30px 0 !important;*/
+        border-radius: 10px 10px 0px 0px;
+        z-index: 3;
+    }
+
+    .section-description {
+        color: #333333;
+    }
+
+    .tab-icon {
+        max-width: 36px;
+        max-height: 36px;
+    }
+
+    .pricing-card .striped li {
+        border-bottom: 1px solid rgba(243, 243, 243, 0.298039);
+    }

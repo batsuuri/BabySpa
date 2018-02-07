@@ -17,6 +17,7 @@ namespace BabySpa
         public string status { get; set; }
         public string contact_info { get; set; }
         public string cancel_reason { get; set; }
+        public string reg_date { get; set; }
         public Cust cust { get; set; }
     }
     public class OrderService
@@ -26,6 +27,7 @@ namespace BabySpa
         public string order_date { get; set; }
         public string order_time { get; set; }
         public string service_count { get; set; }
+        public string prod_id { get; set; }
         public string extra_prod_id { get; set; }
         public string service_note { get; set; }
         public string service_price { get; set; }
@@ -62,20 +64,3 @@ namespace BabySpa
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
