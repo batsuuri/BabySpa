@@ -1,0 +1,56 @@
+﻿@model BabySpa.OrderViewModel
+
+
+@using (Html.BeginForm("Order", "Home"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal order-form">
+        @*<div class="modal-header text-center">
+                <h4 class="modal-title w-100">BabySpa -г сонгосонд баярлалаа.</h4>
+            </div>*@
+        <!--Body-->
+        <div class="modal-body p-0">
+            <div class="card card-cascade">
+
+                <!--Card image-->
+                <div class="view overlay hm-white-slight">
+                    <img src="~/img/Thank_You.jpg" class="img-fluid" alt="Thank You!">
+                    <a>
+                        <div class="mask waves-effect waves-light"></div>
+                    </a>
+                </div>
+                <!--/.Card image-->
+                <!--Card content-->
+                <div class="card-body">
+                    <h4 class="card-title text-center">
+                        <strong class="text-info">BabySpa -г сонгосонд баярлалаа.</strong>
+                    </h4>
+                    <!--Title-->
+                    <h5 class="">Санамж</h5>
+                    <!--Text-->
+                    <p class="">
+                        Эрхэм хэрэглэгч та үйлчилүүлэхээр ирэхдээ дараах зүйлсийг анхаарна уу
+                    </p>
+                    <ul>
+                        <li>
+                            <text class="card-text">Бидний үйлчилгээндээ хэрэглэгдэж буй </text>
+                        </li>
+                        <li>
+                            <text class="card-text">бла бла</text>
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <a class="btn btn-info waves-effect waves-light" data-dismiss="modal">Хаах</a>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+        <!--Footer-->
+        @*<div class="modal-footer">
+                <button type="button" class="btn btn-info waves-effect waves-light" >Хаах</button>
+            </div>*@
+    </div>
+}

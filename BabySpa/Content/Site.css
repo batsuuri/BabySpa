@@ -18,16 +18,19 @@ body {
 }
 #home_desc {
     font-family: MnDown;
-    color: #6fc7bf;
+    color: white;
 }
 
 section h1 {
     font-family: MonAstronCTT;
     color: #33b5e5;
     font-size: 3rem;
+    background-position: center;
+    background-repeat:no-repeat;
+    height:92px;
 }
 
-button.close span{
+button.close span,.order-form {
     font-family:"Roboto";
 }
 /*body {
@@ -58,6 +61,7 @@ textarea {
 .form-control {
     padding: .1rem 0 .3rem;
     line-height: 1.2;
+    margin-bottom: 0 !important;
 }
 .header_tiny {
     height: 70px !important;
@@ -72,6 +76,9 @@ textarea {
         text-align:right;
         padding-right:15px;
     }
+}
+.navbar .nav-link {
+    font-size: 20px;
 }
     .navbar-brand {
         padding-top: 0px;
@@ -211,3 +218,59 @@ textarea {
     .pricing-card .striped li {
         border-bottom: 1px solid rgba(243, 243, 243, 0.298039);
     }
+
+.text-danger {
+    font-size:12px;
+}
+
+.zoom img, .zoom video {
+    -webkit-transition: all .2s linear;
+    transition: all .2s linear;
+}
+.zoom:hover img, .zoom:hover video {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1)
+}
+.text-muted {
+    font-size: 14px;
+}
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300
+}
+
+.display-1 {
+    font-size: 6rem;
+    font-weight: 300;
+    line-height: 1.2
+}
+
+.display-2 {
+    font-size: 5.5rem;
+    font-weight: 300;
+    line-height: 1.2
+}
+
+.display-3 {
+    font-size: 4.5rem;
+    font-weight: 300;
+    line-height: 1.2
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2
+}
+.display-5 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2
+}
+.pills-secondary .nav-item{
+    width:175px;
+}
+.branch-address p{
+    font-size:14px;
+}

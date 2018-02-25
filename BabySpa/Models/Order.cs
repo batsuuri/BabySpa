@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,6 +9,7 @@ namespace BabySpa
     public class Order
     {
         public string order_id { get; set; }
+        [Required(ErrorMessage = App.REQUIRED)]
         public string order_date { get; set; }
         public string branch_id { get; set; }
         public string cust_id { get; set; }
@@ -24,7 +26,9 @@ namespace BabySpa
     {
         public string order_id { get; set; }
         public string child_id { get; set; }
+        [Required(ErrorMessage = App.REQUIRED)]
         public string order_date { get; set; }
+        [Required(ErrorMessage = App.REQUIRED)]
         public string order_time { get; set; }
         public string service_count { get; set; }
         public string prod_id { get; set; }
@@ -40,8 +44,14 @@ namespace BabySpa
     public class Cust
     {
         public string cust_id { get; set; }
+        [Required(ErrorMessage = App.REQUIRED)]
+        [StringLength(50)]
         public string father_name { get; set; }
+        [Required(ErrorMessage = App.REQUIRED)]
+        [StringLength(50)]
         public string mother_name { get; set; }
+        [Required(ErrorMessage = App.REQUIRED)]
+        [StringLength(50)]
         public string contact_phone { get; set; }
         public string email { get; set; }
         public string social_id { get; set; }

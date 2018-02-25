@@ -1,6 +1,7 @@
 ﻿using BabySpa.Core;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -23,23 +24,16 @@ namespace BabySpa
             //App.tourList = new SortedList<string, Tour>();
             //App.HomeTours = new SortedList<string, Tour>();
             //App.dataBasic = new SortedList<string, DataBasic>();
-            //Main.mConnString = Func.ToStr(ConfigurationManager.AppSettings["ConStr"]);
         }
         public static void InitDic()
         {
             DataSet ds = new DataSet();
             DataTable dt = null;
             Dictionary dic;
+            TimeTable tt;
             SysConfig config;
-            string sqlData = @"select 
-                                    'fin_inst' dic_type, 
-                                    cast([inst_code] as nvarchar) id,
-                                    inst_name name,
-                                    inst_name2 name2,
-                                    inst_param1 extra,
-                                    inst_param2 extra2
-                                from [dic_fin_inst]
-                            SELECT * FROM sys_msg order by msg_no, msg_lang;
+            sysMsg = new System.Collections.Hashtable();
+            string sqlData = @"SELECT *  FROM [dbo].[time_table] order by branch_id, day_no
                             SELECT * FROM sys_config ORDER BY config_key;";
 
 
@@ -49,9 +43,9 @@ namespace BabySpa
             {
                 if (res.Succeed)
                 {
-                    if (App.dicTable != null && App.dicTable.Count > 0)
+                    if (App.timeTable != null && App.timeTable.Count > 0)
                     {
-                        App.dicTable.Clear();
+                        App.timeTable.Clear();
                     }
                     ds = (DataSet)res.Data;
                     dt = ds.Tables[0];
@@ -59,21 +53,16 @@ namespace BabySpa
 
                     foreach (DataRow row in dt.Rows)
                     {
-                        dic = new Dictionary
-                        {
-                            dicType = Func.ToStr(row["dic_Type"]),
-                            id = Func.ToStr(row["id"]),
-                            name = Func.ToStr(row["name"]),
-                            name2 = Func.ToStr(row["name2"]),
-                            extra = Func.ToStr(row["extra"]),
-                            extra2 = Func.ToStr(row["extra2"])
-                        };
-                        if (dic.dicType == "product_item")
-                        {
-                            dicTable.Add(dic.dicType + "*" + dic.id + "~" + dic.extra2, dic);
-                        }
-                        else
-                            dicTable.Add(dic.dicType + "*" + dic.id, dic);
+                        
+                            tt = new TimeTable
+                            {
+                                branch_id = Func.ToStr(row["branch_id"]),
+                                day_no = Func.ToStr(row["day_no"]),
+                                start_time = Func.ToStr(row["start_hour"]),
+                                end_time = Func.ToStr(row["end_hour"]),
+                                is_work = Func.ToStr(row["is_work"])
+                            };
+                        timeTable.Add(tt.branch_id+"_"+tt.day_no, tt);
                     }
 
                     
@@ -97,6 +86,7 @@ namespace BabySpa
                     ds = null;
                     dic = null;
                     config = null;
+                    tt = null;
                 }
                 else
                 {

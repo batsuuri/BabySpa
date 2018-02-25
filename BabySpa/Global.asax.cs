@@ -17,6 +17,9 @@ namespace BabySpa
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
+            Main.apppath = Server.MapPath("");
+            AppConfig.Init();
         }
         void Application_Error(object sender, EventArgs e)
         {

@@ -186,13 +186,23 @@
     <Content Include="img\about.jpg" />
     <Content Include="img\bath.png" />
     <Content Include="img\baby spa.jpg" />
+    <Content Include="img\bg-5.jpg" />
     <Content Include="img\bg-card-1.jpg" />
     <Content Include="img\bg-card-2.jpg" />
     <Content Include="img\bg-card-3.jpg" />
     <Content Include="img\bg-pattern-1.jpg" />
     <Content Include="img\bg-pattern-2.jpg" />
     <Content Include="img\bg-pattern-4.jpg" />
+    <Content Include="img\fb-1.jpg" />
+    <Content Include="img\fb-2.jpg" />
+    <Content Include="img\fb-3.jpg" />
+    <Content Include="img\Header_AboutUs.png" />
+    <Content Include="img\Header_Branches.png" />
     <Content Include="img\header_main.jpg" />
+    <Content Include="img\Header_Product.png" />
+    <Content Include="img\Header_Service.png" />
+    <Content Include="img\Header_Testimonials.png" />
+    <Content Include="img\Header_WhyChooseUs.png" />
     <Content Include="img\IMG_0411.JPG" />
     <Content Include="img\IMG_0422.JPG" />
     <Content Include="img\IMG_0427.JPG" />
@@ -215,6 +225,7 @@
     <Content Include="img\service_heilthy.jpg" />
     <Content Include="img\service_massagge.jpg" />
     <Content Include="img\service_other.jpg" />
+    <Content Include="img\Thank_You.jpg" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -373,6 +384,8 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -407,7 +420,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Branches.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -419,6 +432,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\_Order.cshtml" />
+    <Content Include="Views\Home\_OrderSent.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

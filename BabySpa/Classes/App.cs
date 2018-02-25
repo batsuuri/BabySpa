@@ -15,13 +15,11 @@ namespace BabySpa
     {
         #region Properties
         public static Hashtable sysConfig = new Hashtable();
+        public static Hashtable timeTable = new Hashtable();
         public static Hashtable dicTable = new Hashtable();
         public static Hashtable sysMsg = new Hashtable();
 
         public static string keydelm = "_";
-        public static string QPAY_Merchant_Code = Func.ToStr(ConfigurationManager.AppSettings["QPay_Merchant_Code"]);
-        public static string QPay_Verification_Code = Func.ToStr(ConfigurationManager.AppSettings["QPay_Verification_Code"]);
-        public static string QPay_Invoice_Code = Func.ToStr(ConfigurationManager.AppSettings["QPay_Invoice_Code"]);
         public const string REQUIRED = "Заавал оруулна уу!";
         #endregion
 
@@ -123,7 +121,7 @@ namespace BabySpa
             });
             dataList.Add(new SelectListItem()
             {
-                Text = "Цондоохой",
+                Text = "Цүндээлэй",
                 Value = "3",
                 Selected = false
             });
@@ -398,6 +396,14 @@ namespace BabySpa
             public string config_value { get; set; }
             public string config_type { get; set; }
             public string config_value2 { get; set; }
+        }
+        public class TimeTable
+        {
+            public string branch_id { get; set; }
+            public string day_no { get; set; }
+            public string start_time { get; set; }
+            public string end_time { get; set; }
+            public string is_work { get; set; }
         }
         public class SysMsg
         {

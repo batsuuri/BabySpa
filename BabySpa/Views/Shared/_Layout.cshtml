@@ -10,19 +10,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Baby Spa</title>
+    <title>Baby Spa Mongolia</title>
+    <title>@ViewBag.Title | Baby Spa Mongolia</title>
     <!-- Meta OG -->
-    <meta property="og:title" content="Modern Spa Landing Page">
-    <meta property="og:description" content="Engage your clients and provide them with an elegant spa landign page enhanced with Material Design.">
+    <meta property="og:title" content="Baby Spa Mongolia">
+    <meta property="og:description" content="Бяцхан үрсийн алжаал тайлах төв.">
     <meta property="og:image" content="https://mdbootstrap.com/img/Live/MDB/spa-landing.jpg">
-    <meta property="og:url" content="https://mdbootstrap.com/live/_MDB/templates/Landing-Page/spa-landing-page.html">
-    <meta property="og:site_name" content="mdbootstrap.com">
+    <meta property="og:url" content="http://babyspa.mn">
+    <meta property="og:site_name" content="babyspa.mn">
     <!-- /Meta OG -->
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:description" content="Engage your clients and provide them with an elegant spa landign page enhanced with Material Design.">
-    <meta name="twitter:title" content="Modern Spa Landing Page">
-    <meta name="twitter:site" content="BabySpa">
+    <meta name="twitter:card" content="Baby Spa Mongolia">
+    <meta name="twitter:description" content="Бяцхан үрсийн алжаал тайлах төв.">
+    <meta name="twitter:title" content="Baby Spa Mongolia">
+    <meta name="twitter:site" content="http://babyspa.mn">
     <meta name="twitter:image" content="https://mdbootstrap.com/img/Live/MDB/spa-landing.jpg">
     <meta name="twitter:creator" content="BabySpa">
     <!-- /Twitter Card -->
@@ -30,8 +31,6 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/vendors")
     @Scripts.Render("~/bundles/modernizr")
-
-
 
 </head>
 @{ string type = "";
@@ -64,29 +63,34 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!--Links-->
-                    <ul class="navbar-nav mr-auto smooth-scroll">
+                    <ul class="navbar-nav mr-auto">
 
                         <li class="nav-item">
                             <a class="nav-link waves-effect waves-light" href='@Url.Action("Index","Home")' data-offset="100">Нүүр</a>
                         </li>
+
                         <li class="nav-item">
-                           @Html.ActionLink("Тухай", "About","Home",null, new { @class= "nav-link waves-effect waves-light" })
-                            @*<a class="nav-link waves-effect waves-light" data-action="@Url.Action("About","Home")">Тухай</a>*@
+                            <a class="nav-link waves-effect waves-light" href="@Url.Action("Index","Home")#services" data-offset="0">Үйлчилгээ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" href="#services" data-offset="100">Үйлчилгээ</a>
+                            <a class="nav-link waves-effect waves-light" href="@Url.Action("Index","Home")#pricing" data-offset="100">Бүтээгдэхүүн</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" href="#pricing" data-offset="100">Бүтээгдэхүүн</a>
+                            <a class="nav-link waves-effect waves-light" href="@Url.Action("Index","Home")#testimonials" data-offset="100">Сэтгэгдэл</a>
+                        </li>
+                        @*<li class="nav-item">
+            <a class="nav-link waves-effect waves-light" href="#newsletter" data-offset="100">Newsletter</a>
+        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" href="@Url.Action("Index","Home")#branches" data-offset="100">Холбоо барих</a>
+                            @*<a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#branches">Холбоо барих</a>*@
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" href="#testimonials" data-offset="100">Opinions</a>
+                            <a class="nav-link waves-effect waves-light" href="#">Мэдээлэл</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" href="#newsletter" data-offset="100">Newsletter</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link waves-effect waves-light" data-toggle="modal" data-target="#modal-contact">Contact</a>
+                            @*@Html.ActionLink("Тухай", "About","Home",null, new { @class= "nav-link waves-effect waves-light" })*@
+                            <a class="nav-link waves-effect waves-light" href="@Url.Action("About","Home")">Тухай</a>
                         </li>
                     </ul>
                     <!--Social Icons-->
@@ -95,8 +99,8 @@
                             <a class="nav-link waves-effect waves-light" target="_blank" href="https://www.facebook.com/Babyspamongolia/"><i class="fa fa-facebook"></i></a>
                         </li>
                         @*<li class="nav-item">
-                            <a class="nav-link waves-effect waves-light"><i class="fa fa-twitter"></i></a>
-                        </li>*@
+                                <a class="nav-link waves-effect waves-light"><i class="fa fa-twitter"></i></a>
+                            </li>*@
                         <li class="nav-item">
                             <a class="nav-link waves-effect waves-light" target="_blank" href="https://www.instagram.com/babyspamongolia/"><i class="fa fa-instagram"></i></a>
                         </li>
@@ -107,25 +111,25 @@
         <!--/Navbar-->
         <!-- Intro Section -->
         @if (isHome)
-    {
-        <div id="home" class="view hm-black-strong-1 jarallax" data-jarallax='{"speed": 0.2}'
-             style="background-image: url('img/header_main.JPG');">
-            <div class="full-bg-img">
-                <div class="container flex-center">
-                    <div class="row smooth-scroll">
-                        <div class="col-md-12 white-text text-center">
-                            <div class="wow fadeInDown" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInDown;">
-                                <h3 class="display-3 font-bold mb-2" id="home_desc">Baby Spa</h3>
-                                <hr class="hr-light">
-                                <h4 class="subtext-header mt-4 mb-5">-Бяцхан үрсийн алжаал тайлах төв-<p> Тавтай үйлчлүүлээрэй.</p></h4>
+        {
+            <div id="home" class="view hm-black-strong-1 jarallax" data-jarallax='{"speed": 0.2}'
+                 style="background-image: url('img/header_main.JPG');">
+                <div class="full-bg-img">
+                    <div class="container flex-center">
+                        <div class="row smooth-scroll">
+                            <div class="col-md-12 white-text text-center">
+                                <div class="wow fadeInDown" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInDown;">
+                                    <h3 class="display-3 font-bold mb-2" id="home_desc">Baby Spa</h3>
+                                    <hr class="hr-light"><br /><br />
+                                    <h4 class="subtext-header mt-4 mb-5">-Бяцхан үрсийн алжаал тайлах төв-<p> Тавтай үйлчлүүлээрэй.</p></h4>
+                                </div>
+                                <btn class="btn btn-rounded btn-lg btn-secondary btn-purple-2 wow fadeInUp waves-effect waves-light" data-wow-delay="0.2s" data-toggle="modal" data-target="#modal-reservation" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">Захиалга өгөх</btn>
                             </div>
-                            <a class="btn btn-rounded btn-lg btn-secondary btn-purple-2 wow fadeInUp waves-effect waves-light" data-wow-delay="0.2s" data-toggle="modal" data-target="#modal-reservation" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">Захиалга өгөх</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-}
+        }
 
         <!--Modal Reservation-->
         <div class="modal fade modal-ext" id="modal-reservation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
@@ -194,12 +198,12 @@
     </header>
     <!--/Navigation & Intro-->
     <!--Main content-->
-    <main>
+    <main style="background-image:url(/img/bg-5.jpg);background-repeat:repeat" class="mb-5">
         @RenderBody()
     </main>
     <!--/Main content-->
     <!--Footer-->
-    <footer class="page-footer center-on-small-only pt-4">
+    <footer class="page-footer center-on-small-only pt-4 teal">
 
         <!--Footer Links-->
         <div class="container mb-3">
@@ -210,7 +214,7 @@
                 <!--First column-->
                 <div class="col-xl-4 col-lg-4 mt-1 mb-1 wow fadeIn" data-wow-delay="0.3s">
                     <!--About-->
-                    <h5 class="title mb-4 font-bold">ABOUT MATERIAL DESIGN</h5>
+                    <h5 class="title mb-4 font-bold">"Baby Spa" Монгол</h5>
 
                     <p>Material Design (codenamed Quantum Paper) is a design language developed by Google.</p>
 
@@ -283,7 +287,7 @@
         <!--Copyright-->
         <div class="footer-copyright wow fadeIn" data-wow-delay="0.3s" style="visibility: hidden; animation-delay: 0.3s; animation-name: none;">
             <div class="container-fluid">
-                © 2018 Copyright: <a href="http://babyspamongolia.mn/" rel="nofollow"> BabySpaMongolia.mn </a>
+                © 2018 Copyright: <a href="http://babyspa.mn/" rel="nofollow">BabySpa.mn </a>
             </div>
         </div>
         <!--/Copyright-->
@@ -296,6 +300,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/mdb")
+
     <script>
 
         //Animation init
@@ -312,11 +317,52 @@
     </script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/vendors")
+
     <script type="text/javascript">
         $(document).ready(function () {
+
             $('.mdb-select').material_select();
+            //$('.select-dropdown').attr('data-val', 'true').attr('data-val-required', 'Заавал оруулна уу!');
+            if ("@isHome"=="True" || "@varAction.ToLower()" == "branches") {
+                initMap();
+            }
         });
-        $('#Order_order_date').datetimepicker({ format: 'L' });
+
+        $('#Order_order_date').datetimepicker({ format: 'YYYY-MM-DD', minDate: moment() });
+         function getTimes() {
+            $.ajax({
+                type:"POST",
+                url: '@Url.Action("GetTimeTable", "Home")',
+                data: { day: $("#Order_order_date").val(), branch_id: $("#Order_branch_id > option:selected").attr("value") },
+                success: function (data) {
+                    var items = [];
+                    //items.push("<option>--Choose Your Area--</option>");
+                    $.each(data, function () {
+                        if (this.Value === "") {
+                            items.push("<option disabled selected value=" + this.Value + ">" + this.Text + "</option>");
+
+                        } else {
+                            items.push("<option value=" + this.Value + ">" + this.Text + "</option>");
+                        }
+                    });
+                    $("#List_0__order_time").html(items.join(' '));
+                    $('#List_0__order_time').material_select();
+                    if (items.length == 1) {
+                        $('#btnOrder').addClass('disabled');
+                    }
+                    else
+                        $('#btnOrder').removeClass('disabled');
+
+                }
+            })
+        };
+        $("#Order_branch_id").change(function () {
+            getTimes();
+        });
+        $("#Order_order_date").on("dp.change", function (e) {
+            getTimes();
+        });
+
     </script>
     @RenderSection("scripts", required: false)
 </body>
