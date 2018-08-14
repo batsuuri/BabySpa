@@ -1,0 +1,144 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model TranslatorViewModel
+@{ string actionname = Model.DisplayMode == "WriteOnly" ? "Insert" : "Update";
+    bool open = Model != null & Func.ToStr(Model.TableName) != "" ? true : false;}
+
+<div id="TranslatorModal" class="modal fade @(open?"in":"")" @(open ? "area-hidden=false style=display:block;" : "") role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Translate text</h4>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm(actionname, "Translator", null, new AjaxOptions { UpdateTargetId = "TranslatorContent", HttpMethod = "Post" }, new { id = "Translatorform" }))
+            {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="bootstrap-admin-panel-content">
+                            @if (Model.List != null)
+                            {
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            Language
+                                        </th>
+                                        <th>
+                                            Text
+                                        </th>
+                                    </tr>
+
+                                    @foreach (var item in Model.List)
+                    {
+                                        <tr>
+                                            <td>
+                                                @Ajax.ActionLink(item.Lang,
+                         "Edit",
+                         "Translator",
+                         new { id = Func.ToStr(item.Lang), t = item.TableName, c = item.ColumnName, k = item.KeyField },
+                         new AjaxOptions { UpdateTargetId = "TranslatorContent" })
+                                            </td>
+                                            <td>
+                                                @(item.TextValue.Length > 100 ? item.TextValue.Substring(0,100) + "..." : item.TextValue)
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            }
+                        </div>
+                        @Html.HiddenFor(model => model.DisplayMode)
+                        @Html.HiddenFor(model => model.TableName)
+                        @Html.HiddenFor(model => model.ColumnName)
+                        @Html.HiddenFor(model => model.KeyField)
+                    </div>
+                    <div class="form-group">
+                        <div class="pull-right">
+                            <div class="col-lg-12">
+                                @if (Model.DisplayMode != "WriteOnly")
+                                {
+                                    @Ajax.ActionLink("New",
+                                     "New",
+                                     "Translator",
+                                     new { id = Func.ToStr(Model.KeyField), t = Model.TableName, c = Model.ColumnName },
+                                     new AjaxOptions { UpdateTargetId = "TranslatorContent" }, new { @class = "btn btn-default" })
+                                }
+
+                                @if (Model.DisplayMode != "ReadOnly" && Model.CurrentEntry != null)
+                                {
+                                    <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                }
+                                @if (Model.DisplayMode == "EditOnly" && Model.CurrentEntry != null)
+                                {
+                                    @Ajax.ActionLink("Delete",
+                                     "Delete",
+                                     "Translator",
+                                     new { id = Func.ToStr(Model.CurrentEntry.Lang), t = Model.TableName, c = Model.ColumnName, k = Model.KeyField },
+                                     new AjaxOptions { UpdateTargetId = "TranslatorContent" }, new { @class = "btn btn-warning" })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal" id="custForm">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="text-muted bootstrap-admin-box-title">Translator Detail</div>
+                            </div>
+                            <div class="bootstrap-admin-panel-content">
+
+                                @if (Model.CurrentEntry != null)
+                {
+                                    @Html.HiddenFor(model => model.CurrentEntry.KeyField)
+
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Language</label>
+                                        <div class="col-md-6">
+                                            @if (Model.DisplayMode == "EditOnly")
+                                            {
+                                                @Html.HiddenFor(model => model.CurrentEntry.Lang)
+                                                @Html.DropDownListFor(
+                                              model => model.CurrentEntry.Lang,
+                                              Model.LangList
+                                              , new { @class = "form-control", disabled = "" }
+                                              )
+                                            }
+                                            else
+                                            { @Html.DropDownListFor(
+                                                model => model.CurrentEntry.Lang,
+                                                Model.LangList
+                                                , new { @class = "form-control" }
+                                                )
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Text</label>
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.CurrentEntry.TextValue, new { @class = "form-control", rows = 5, maxlength = 4000 })
+                                            @Html.ValidationMessageFor(model => model.CurrentEntry.TextValue, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                }
+                                @if (Func.ToStr(ViewBag.Result) != "")
+                {
+                                    <div class="form-group alert alert-info mt10">
+                                        <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                        <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

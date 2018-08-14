@@ -1,0 +1,288 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model BlogViewModel
+@Styles.Render("~/Content/Vendors")
+@{
+    ViewBag.Title = "Tour Blogs";
+}
+@Html.Partial("_LeftMenu")
+<div class="col-md-10">
+    <div class="row">
+        @{ string actionname = Model.DisplayMode == "WriteOnly" ? "Insert" : "Update";}
+        @using (Html.BeginForm(actionname, "Blog", null, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            <div class="form-horizontal" id="custForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">Blog Detail</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                        @Html.HiddenFor(model => model.BlogID)
+                        @Html.HiddenFor(model => model.DisplayMode)
+                        @if (Model.CurrentBlog != null)
+                        {
+                            <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="Blog">
+                            <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.CurrentBlog.BlogID)">
+                            @Html.HiddenFor(model => model.CurrentBlog.BlogID)
+                                @Html.HiddenFor(model => model.CurrentBlog.CoverUrl)
+                            
+                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Blog Name</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentBlog.BlogName, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentBlog.BlogName, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">Publish Date</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.CurrentBlog.BlogDate, new { @class = "form-control datepicker" })
+                                    @Html.ValidationMessageFor(model => model.CurrentBlog.BlogDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Releated to</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(
+                                    model => model.CurrentBlog.BlogType,
+                                     BabySpa.App.getBasicData("tourtype",false,true)
+                                    , new { @class = "form-control" }
+                                    )
+                                </div>
+                                <label class="control-label col-md-2">Category</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(
+                                    model => model.CurrentBlog.Category,
+                                     BabySpa.App.getBasicData("blogcategory")
+                                    , new { @class = "form-control" }
+                                    )
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Tags</label>
+                                <div class="col-md-10">
+                                    @*@Html.DropDownListFor(
+                                    model => model.CurrentBlog.Tags,
+                                     BabySpa.App.getBasicData("blogtag")
+                                    , new { @class = "form-control multiple", multiple = "multiple" }
+                                    )*@
+                                    @Html.ListBoxFor(model => model.CurrentBlog.Tags, BabySpa.App.getBasicData("blogtag"), new { @class = "listbox" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Autor</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentBlog.Author, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentBlog.Author, "", new { @class = "text-danger"})
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="uniform">
+                                        Is featured blog? <input class="uniform_on" type="checkbox" id="IsFeatured" value="1" name="CurrentBlog.IsFeatured" @(Model.CurrentBlog.IsFeatured == 1 ? "checked='checked'" : "") />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Content</label>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.CurrentBlog.BlogContent, new { @class = "form-control", rows = 15})
+                                    @Html.ValidationMessageFor(model => model.CurrentBlog.BlogContent, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                           
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Select Cover photo# </label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                Browse… <input type="file" id="imgInp" name="file" accept="image/*">
+                                            </span>
+                                        </span>
+                                        <input type="text" class="form-control" readonly>
+                                    </div>
+                                    @if (Func.ToStr(Model.CurrentBlog.CoverUrl) != "")
+                                    {
+                                        <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Model.CurrentBlog.CoverUrl)" />
+                                    }
+                                    else
+                                    {
+                                        <img id='img-upload' class="imagePreview" />
+                                    }
+                                </div>
+                                <label class="control-label col-md-2">Select Cover photo# (small)</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                Browse… <input type="file" id="imgInps" name="fileSmall" accept="image/*">
+                                            </span>
+                                        </span>
+                                        <input type="text" class="form-control" readonly>
+                                    </div>
+                                    @if (Func.ToStr(Model.CurrentBlog.CoverUrl) != "")
+                                    {
+                                        <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Helper.GetPreviewImageUrl(Model.CurrentBlog.CoverUrl,false))" />
+                                    }
+                                    else
+                                    {
+                                        <img id='img-upload' class="imagePreview" />
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <div class="col-lg-12">
+                                    @if (Model.DisplayMode != "WriteOnly")
+                                    {
+                                        @Html.ActionLink("New Blog", "New", "Blog", null, new { @class = "btn btn-default" })
+                                    }
+
+                                    @if (Model.DisplayMode != "ReadOnly" && Model.CurrentBlog != null)
+                                    {
+                                        <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                    }
+                                    @if (Model.DisplayMode == "EditOnly" && Model.CurrentBlog != null)
+                                    {
+                                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" id="delete">Delete</button>
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Delete Blog</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b>You realy wanna delete this Blog?</b>
+                                                        <br /><i>Delete operation is cannot undo!!!</i>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        @Html.ActionLink("Delete anyway", "Delete", "Blog", new { id = Model.CurrentBlog.BlogID }, new { @class = "btn btn-default" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @if (Func.ToStr(ViewBag.Result) != "")
+                        {
+                            <div class="form-group alert alert-info mt10">
+                                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="BlogContent">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">
+                        Blog List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")
+                    </div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @if (Model.List != null)
+                {
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Blog Name
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model.List)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.BlogName, "Edit", "Blog", new { id = item.BlogID }, null)
+                                    </td>
+                                    <td>
+                                        @BabySpa.App.getBasicDataName("blogcategory", Func.ToStr(item.Category))
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BlogDate)
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div id="TranslatorContent">
+    @Html.Action("Index", "Translator")
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/vendors")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $(document).on("click", "input.form-control[type='text'][maxlength], textarea.form-control", function (e) {
+                if (event.altKey) {
+                    col = this.name;
+                    form = $(this.form);
+                    table = form.find("[data-val-gl=true]")[0].value;
+                    key = form.find("[data-val-gl=true]")[1].value;
+                    modal = $("#TranslatorModal");
+                    $("#TranslatorContent").load('@Url.Action("Index", "Translator")' + '?t=' + table + '&c=' + col + '&k=' + key);
+                    //$(modal).modal('show').draggable({ handle: ".modal-header" });
+                }
+            });
+
+            $(document).on("click", "[data-dismiss=modal]", function (e) {
+                $("#TranslatorModal").removeClass("in").css("display", "none").attr("aria-hidden", "true");
+                $("#TranslatorModal").modal('hide');
+
+            });
+            $('.datepicker').datetimepicker({ format: 'L' });
+            $(document).on('change', '.btn-file :file', function () {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+                readURL(this);
+            });
+            $('.listbox').multiselect();
+           
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(input).closest('div').next('img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+}

@@ -21,9 +21,7 @@ namespace BabySpa
         private static void InitAppConfig()
         {
 
-            //App.tourList = new SortedList<string, Tour>();
-            //App.HomeTours = new SortedList<string, Tour>();
-            //App.dataBasic = new SortedList<string, DataBasic>();
+           //App.dataBasic = new SortedList<string, DataBasic>();
         }
         public static void InitDic()
         {

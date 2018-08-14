@@ -1,0 +1,260 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model AccommodationViewModel
+@Styles.Render("~/Content/Vendors")
+@{
+    ViewBag.Title = "Tour Accommodations";
+}
+@Html.Partial("_LeftMenu")
+<div class="col-md-10">
+    <div class="row">
+        @{ string actionname = Model.DisplayMode == "WriteOnly" ? "Insert" : "Update";}
+        @using (Html.BeginForm(actionname, "Accommodation", null, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            <div class="form-horizontal" id="custForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">Accommodation Detail</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                        @Html.HiddenFor(model => model.AccommodationID)
+                        @Html.HiddenFor(model => model.DisplayMode)
+                        @if (Model.CurrentAccommodation != null)
+                        {
+                            <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="DATA_Accommadation">
+                            <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.CurrentAccommodation.AccommodationID)">
+                            @Html.HiddenFor(model => model.CurrentAccommodation.AccommodationID)
+                            for (int i = 0; i < Model.CurrentAccommodation.PhotoUrl.Count(); i++)
+                            {
+                                @Html.HiddenFor(model => model.CurrentAccommodation.PhotoUrl[i])
+                            }
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Name</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.CurrentAccommodation.AccommodationName, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentAccommodation.AccommodationName, "", new { @class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Description</label>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.CurrentAccommodation.AccommodationDesc, new { @class = "form-control", rows = 5, maxlength = 4000 })
+                                    @Html.ValidationMessageFor(model => model.CurrentAccommodation.AccommodationDesc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                <label class="control-label col-md-2">Geo Location</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.CurrentAccommodation.GeoLocation, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CurrentAccommodation.GeoLocation, "", new { @class = "text-danger", maxlength = 50 })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Province</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentAccommodation.Province, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CurrentAccommodation.Province, "", new { @class = "text-danger", maxlength = 50 })
+                                </div>
+                                <label class="control-label col-md-2">Soum</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentAccommodation.Soum, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CurrentAccommodation.Soum, "", new { @class = "text-danger", maxlength = 50 })
+                                </div>
+                            </div>*@
+                            for (int i = 0; i < Model.CurrentAccommodation.PhotoUrl.Count(); i++)
+                            {
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Select photo#[@(i)]</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file">
+                                                    Browse… <input type="file" id="imgInp[@(i)] " name="file" accept="image/*">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        @if (Func.ToStr(Model.CurrentAccommodation.PhotoUrl[i]) != "")
+                                        {
+                                            <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Model.CurrentAccommodation.PhotoUrl[i])" />
+                                        }
+                                        else
+                                        {
+                                            <img id='img-upload' class="imagePreview" />
+                                        }
+                                    </div>
+                                    <label class="control-label col-md-2">Select photo#[@(i)] (small)</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file">
+                                                    Browse… <input type="file" id="imgInp[@(i)]s" name="fileSmall" accept="image/*">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        @if (Func.ToStr(Model.CurrentAccommodation.PhotoUrl[i]) != "")
+                                        {
+                                            <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Helper.GetPreviewImageUrl(Model.CurrentAccommodation.PhotoUrl[i],false))" />
+                                        }
+                                        else
+                                        {
+                                            <img id='img-upload' class="imagePreview" />
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <div class="col-lg-12">
+                                    @if (Model.DisplayMode != "WriteOnly")
+                                    {
+                                        @Html.ActionLink("New Accommodation", "New", "Accommodation", null, new { @class = "btn btn-default" })
+                                    }
+
+                                    @if (Model.DisplayMode != "ReadOnly" && Model.CurrentAccommodation != null)
+                                    {
+                                        <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                    }
+                                    @if (Model.DisplayMode == "EditOnly" && Model.CurrentAccommodation != null)
+                                    {
+                                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" id="delete">Delete</button>
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Delete Accommodation</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b>You realy wanna delete this Accommodation?</b>
+                                                        <br /><i>Delete operation is cannot undo!!!</i>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        @Html.ActionLink("Delete anyway", "Delete", "Accommodation", new { id = Model.CurrentAccommodation.AccommodationID }, new { @class = "btn btn-default" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @if (Func.ToStr(ViewBag.Result) != "")
+                        {
+                            <div class="form-group alert alert-info mt10">
+                                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="AccommodationContent">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">
+                        Accommodation List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")
+                    </div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @if (Model.List != null)
+                {
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Accommodation Name
+                                </th>
+                                <th>
+                                    Accommodation Desc
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model.List)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.AccommodationName, "Edit", "Accommodation", new { id = item.AccommodationID }, null)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AccommodationDesc).ToString().PadRight(50, '.').Substring(0,50)
+                                    </td>
+                                 </tr>
+                            }
+
+                        </table>
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<div id="TranslatorContent">
+    @Html.Action("Index", "Translator")
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/vendors")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+
+            $(document).on('change', '.btn-file :file', function () {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+                readURL(this);
+            });
+
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(input).closest('div').next('img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $(document).on("click", "input.form-control[type='text'][maxlength], textarea.form-control", function (e) {
+                if (event.altKey) {
+                    col = this.name;
+                    form = $(this.form);
+                    table = form.find("[data-val-gl=true]")[0].value;
+                    key = form.find("[data-val-gl=true]")[1].value;
+                    modal = $("#TranslatorModal");
+                    $("#TranslatorContent").load('@Url.Action("Index", "Translator")' + '?t=' + table + '&c=' + col + '&k=' + key);
+                    //$(modal).modal('show').draggable({ handle: ".modal-header" });
+                }
+            });
+               
+            $(document).on("click", "[data-dismiss=modal]", function (e) {
+                $("#TranslatorModal").removeClass("in").css("display", "none").attr("aria-hidden", "true");
+                $("#TranslatorModal").modal('hide');
+                    
+            });
+        });
+    </script>
+}

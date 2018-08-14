@@ -1,0 +1,246 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model TransportViewModel
+@Styles.Render("~/Content/Vendors")
+@{
+    ViewBag.Title = "Tour Transports";
+}
+@Html.Partial("_LeftMenu")
+<div class="col-md-10">
+    <div class="row">
+        @{ string actionname = Model.DisplayMode == "WriteOnly" ? "Insert" : "Update";}
+        @using (Html.BeginForm(actionname, "Transport", null, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            <div class="form-horizontal" id="custForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">Transport Detail</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                        @Html.HiddenFor(model => model.TransportID)
+                        @Html.HiddenFor(model => model.DisplayMode)
+                        @if (Model.CurrentTransport != null)
+                        {
+                            @Html.HiddenFor(model => model.CurrentTransport.TransportID)
+                            for (int i = 0; i < Model.CurrentTransport.PhotoUrl.Count(); i++)
+                            {
+                                @Html.HiddenFor(model => model.CurrentTransport.PhotoUrl[i])
+                            }
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Transport Name</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.CurrentTransport.TransportName, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentTransport.TransportName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Description</label>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.CurrentTransport.TransportDesc, new { @class = "form-control", rows = 5, maxlength = 4000 })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Brand</label>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.CurrentTransport.Brand, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentTransport.Brand, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Mark</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentTransport.Mark, new { htmlAttributes = new { @class = "form-control", maxlength = 50  } })
+                                    @Html.ValidationMessageFor(model => model.CurrentTransport.Mark, "", new { @class = "text-danger"})
+                                </div>
+                                <label class="control-label col-md-2">Type</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(
+                                    model => model.CurrentTransport.Type,
+                                     BabySpa.App.getBasicData("transporttype")
+                                    , new { @class = "form-control" }
+                                    )
+                                </div>
+                            </div>
+                            for (int i = 0; i < Model.CurrentTransport.PhotoUrl.Count(); i++)
+                            {
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Select photo#[@(i)]</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file">
+                                                    Browse… <input type="file" id="imgInp[@(i)] " name="file" accept="image/*">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        @if (Func.ToStr(Model.CurrentTransport.PhotoUrl[i]) != "")
+                                        {
+                                            <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Model.CurrentTransport.PhotoUrl[i])" />
+                                        }
+                                        else
+                                        {
+                                            <img id='img-upload' class="imagePreview" />
+                                        }
+                                    </div>
+                                    <label class="control-label col-md-2">Select photo#[@(i)] (small)</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file">
+                                                    Browse… <input type="file" id="imgInp[@(i)]s" name="fileSmall" accept="image/*">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        @if (Func.ToStr(Model.CurrentTransport.PhotoUrl[i]) != "")
+                                        {
+                                            <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Helper.GetPreviewImageUrl(Model.CurrentTransport.PhotoUrl[i],false))" />
+                                        }
+                                        else
+                                        {
+                                            <img id='img-upload' class="imagePreview" />
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <div class="col-lg-12">
+                                    @if (Model.DisplayMode != "WriteOnly")
+                                    {
+                                        @Html.ActionLink("New Transport", "New", "Transport", null, new { @class = "btn btn-default" })
+                                    }
+
+                                    @if (Model.DisplayMode != "ReadOnly" && Model.CurrentTransport != null)
+                                    {
+                                        <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                    }
+                                    @if (Model.DisplayMode == "EditOnly" && Model.CurrentTransport != null)
+                                    {
+                                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" id="delete">Delete</button>
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Delete Transport</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b>You realy wanna delete this Transport?</b>
+                                                        <br /><i>Delete operation is cannot undo!!!</i>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        @Html.ActionLink("Delete anyway", "Delete", "Transport", new { id = Model.CurrentTransport.TransportID }, new { @class = "btn btn-default" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @if (Func.ToStr(ViewBag.Result) != "")
+                        {
+                            <div class="form-group alert alert-info mt10">
+                                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="TransportContent">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">
+                        Transport List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")
+                    </div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @if (Model.List != null)
+                {
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Transport Name
+                                </th>
+                                <th>
+                                    Mark
+                                </th>
+                                <th>
+                                    Brand
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model.List)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.TransportName, "Edit", "Transport", new { id = item.TransportID }, null)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Mark)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Brand)
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/vendors")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+
+            $(document).on('change', '.btn-file :file', function () {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+                readURL(this);
+            });
+
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(input).closest('div').next('img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+}

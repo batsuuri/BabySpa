@@ -1,0 +1,91 @@
+﻿<!-- left, vertical navbar -->
+<div class="col-md-2 bootstrap-admin-col-left">
+    <ul class="nav navbar-collapse collapse bootstrap-admin-navbar-side">
+        @Html.MenuItem("Admin", "Index", "Home")
+        @Html.MenuItem("Dashboard", "Index", "Dashboard")
+
+        <li>
+            <a href='@Url.Action("Index", "Order")'>
+                <span>Order</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Tour")'>
+                <span>Tour</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Destination")'>
+                <span>Destination</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Accommodation")'>
+                <span>Accommodation</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Transport")'>
+                <span>Transport</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Food")'>
+                <span>Food</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Staff")'>
+                <span>Staff</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Blog")'>
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "Gallery")'>
+                <span>Gallery</span>
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Index", "ImageUpload")'>
+                <span>Image Uploader</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://wordtohtml.net/" target="_blank"><span>Html Convertor</span></a>
+        </li>
+        @Html.MenuItem("Statistics (Charts)", "Index", "Statistics")
+        @Html.MenuItem("Buttons &amp; Icons", "Index", "Buttons")
+        @Html.MenuItem(" WYSIWYG Editors", "Index", "Editors")
+        @Html.MenuItem(" UI &amp; Interface", "Index", "Interface")
+
+        @*<li>
+        <a href="#"><span class="badge pull-right">731</span> Orders</a>
+    </li>
+    <li>
+        <a href="#"><span class="badge pull-right">812</span> Invoices</a>
+    </li>
+    <li>
+        <a href="#"><span class="badge pull-right">27</span> Clients</a>
+    </li>
+    <li>
+        <a href="#"><span class="badge pull-right">1,234</span> Users</a>
+    </li>
+    <li>
+        <a href="#"><span class="badge pull-right">2,221</span> Messages</a>
+    </li>
+    <li>
+        <a href="#"><span class="badge pull-right">11</span> Reports</a>
+    </li>
+    <li>
+        <a href="#"><span class="badge pull-right">83</span> Errors</a>
+    </li>
+    <li>
+        <a href="#"><span class="badge pull-right">4,231</span> Logs</a>
+    </li>*@
+    </ul>
+</div>
+

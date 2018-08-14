@@ -1,0 +1,221 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model GalleryPhotoViewModel
+
+
+        @{ string actionname = Model.DisplayMode == "WriteOnly" ? "PhotoInsert" : "PhotoUpdate";}
+        @using (Ajax.BeginForm(actionname, "Gallery", null,
+            new AjaxOptions { UpdateTargetId = "PhotoContent",
+                HttpMethod = "Post",
+                OnComplete = "InitListBox();",
+                OnSuccess = "InitListBox();",
+                OnBegin = "InitListBox();"},
+            new { id = "photoform" , enctype = "multipart/form-data", onload ="InitListBox();" }))
+        {
+            <div class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">Photo Detail</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                      
+                        @if (Model.CurrentPhoto != null)
+                {
+                            <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="Gallery_Photo">
+                            <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.GalleryID.ToString() +"_"+ Model.CurrentPhoto.PhotoID.ToString())">
+                            @Html.HiddenFor(model => model.CurrentPhoto.PhotoID)
+                            @Html.HiddenFor(model => model.CurrentPhoto.PhotoUrl)
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                               
+                                <label class="control-label col-md-2">Photo Name</label>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.CurrentPhoto.PhotoName, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentPhoto.PhotoName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="IsVideo" value="1" name="IsVideo" @(Model.CurrentPhoto.IsVideo == 1 ? "checked='checked'" : "") />
+                                        <span class="normal" for="IsVideo">Is Video?</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Photo Desc</label>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.CurrentPhoto.PhotoDesc, new { @class = "form-control", rows = 2, maxlength = 150 })
+                                    <p class="help-block">Brief description, author, datetaken, place etc</p>
+                                    @Html.ValidationMessageFor(model => model.CurrentPhoto.PhotoDesc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Tags</label>
+                                <div class="col-md-10">
+                                    @*@Html.DropDownListFor(
+                                        model => model.CurrentGallery.Tags,
+                                         BabySpa.App.getBasicData("Gallerytag")
+                                        , new { @class = "form-control multiple", multiple = "multiple" }
+                                        )*@
+                                    @Html.ListBoxFor(model => model.CurrentPhoto.Tags, BabySpa.App.getBasicData("gallerytag"), new { @class = "listbox" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Select photo</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                Browse… <input type="file" id="imgInp" name="pfile" accept="image/*">
+                                            </span>
+                                        </span>
+                                        <input type="text" class="form-control" readonly>
+                                    </div>
+                                    <img id='img-upload' />
+                                </div>
+                                <label class="control-label col-md-2">Current photo</label>
+                                <div class="col-md-4">
+                                    @if (Func.ToStr(Model.CurrentPhoto.PhotoUrl) != "")
+                                    {
+                                        <img id='Image' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/"+ Model.CurrentPhoto.PhotoUrl)" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Select preview(small) photo</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                Browse… <input type="file" id="imgInpSmall" name="pfileSmall" accept="image/*">
+                                            </span>
+                                        </span>
+                                        <input type="text" class="form-control" readonly>
+                                    </div>
+                                    <img id='img-uploadSmall' />
+                                </div>
+                                <label class="control-label col-md-2">Current preview photo</label>
+                                <div class="col-md-4">
+                                    @if (Func.ToStr(Model.CurrentPhoto.PhotoUrl) != "")
+                                    {
+                                        <img id='smallImage' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Helper.GetPreviewImageUrl(Model.CurrentPhoto.PhotoUrl,false))" />
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <div class="col-lg-12">
+                                    @if (Model.DisplayMode != "WriteOnly")
+                                    {
+                                        @Ajax.ActionLink("New",
+                                     "PhotoNew",
+                                     "Gallery",
+                                     new { id = Func.ToStr(Model.GalleryID) },
+                                     new AjaxOptions { UpdateTargetId = "PhotoContent", OnSuccess = "InitListBox();" }, new { @class = "btn btn-default" })
+                                    }
+
+                                    @if (Model.DisplayMode != "ReadOnly" && Model.CurrentPhoto != null)
+                                    {
+                                        <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                    }
+                                    @if (Model.DisplayMode == "EditOnly" && Model.CurrentPhoto != null)
+                                    {
+                                        <button type="button" data-toggle="modal" data-target="#myPModal" class="btn btn-primary" id="delete">Delete</button>
+                                        <div id="myPModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Delete Photo</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b>You realy wanna delete this photo?</b>
+                                                        <br /><i>Delete operation is cannot undo!!!</i>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        @Ajax.ActionLink("Delete",
+                                                         "PhotoDelete",
+                                                         "Gallery",
+                                                         new { id = Func.ToStr(Model.CurrentPhoto.PhotoID) },
+                                                         new AjaxOptions { UpdateTargetId = "PhotoContent" }, new { @class = "btn btn-warning" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @if (Func.ToStr(ViewBag.Result) != "")
+                {
+                            <div class="form-group alert alert-info mt10">
+                                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="PhotoContent">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">
+                        Photo List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")
+                    </div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @if (Model.List != null)
+                    {
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Photo Name
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Picture
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model.List)
+                    {
+                                <tr>
+                                    <td>
+                                        @Ajax.ActionLink(item.PhotoName,
+                         "PhotoEdit",
+                         "Gallery",
+                         new { id = Func.ToStr(item.PhotoID) },
+                         new AjaxOptions { UpdateTargetId = "PhotoContent", OnSuccess = "InitListBox();" })
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhotoDesc)
+                                    </td>
+                                    <td>
+                                        @if (Func.ToStr(item.PhotoUrl) != "")
+                                        {
+                                            <img class="imagePreview" src="@(Url.Content("~/") + "Content/tour/"+Helper.GetPreviewImageUrl(item.PhotoUrl))" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+                </div>
+                @Html.HiddenFor(model => model.DisplayMode)
+                @Html.HiddenFor(model => model.GalleryID)
+                @Html.HiddenFor(model => model.PhotoID)
+            </div>
+            if (ViewBag.StartScript != null)
+            {
+                <script>
+                    @Html.Raw(ViewBag.StartScript)
+                </script>
+            }
+        }

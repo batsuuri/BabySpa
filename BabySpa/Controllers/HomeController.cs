@@ -15,7 +15,7 @@ namespace BabySpa
             return View();
         }
 
-        [Route("Бидний тухай")]
+        [Route("Бидний-тухай")]
         public ActionResult About()
         {
             ViewBag.Message = "Бидний тухай";

@@ -141,9 +141,11 @@ textarea {
     }
 
 
-    .spa-lp .md-pills.pills-secondary .nav-item .nav-link.active {
-        background-color: #2BBBAD !important
-    }
+.spa-lp .md-pills.pills-secondary .nav-item .nav-link.active {
+    background-color: #2BBBAD !important;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 5px 35px 0 rgba(0,0,0,.3);
+}
 
     /*.spa-lp .btn-primary {
     background: #ff82ad

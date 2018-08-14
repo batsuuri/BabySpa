@@ -1,0 +1,72 @@
+﻿@using BabySpa.Areas.Admin.Models
+@using System.Data;
+@using BabySpa;
+@model CustSearch
+<div class="row" id="list">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="text-muted bootstrap-admin-box-title">Customer List @(Model.List != null ? ":  " + Model.List.Rows.Count + " records found." : "")</div>
+        </div>
+        <div class="bootstrap-admin-panel-content">
+            <table class="table">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Registered Date
+                    </th>
+                    <th>
+                        Country
+                    </th>
+                    <th>
+                        Phone
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Arrive Date
+                    </th>
+                    <th>
+                        Tour Name
+                    </th>
+                    <th>
+                        Order ID
+                    </th>
+                </tr>
+                @if (Model.List != null)
+                {
+                    foreach (DataRow row in Model.List.Rows)
+                    {
+                        <tr>
+                            <td>
+                                @Ajax.ActionLink(
+                                        row["fname"] + "." + row["Lname"],
+                                        "Edit",
+                                        "Customer",
+                                        new { id = row["custid"] },
+                                        new AjaxOptions { UpdateTargetId = "Detail" ,OnSuccess= "RecallJS();" })
+                            </td>
+                            <td>@row["RegDate"] </td>
+                            <td>
+                                @BabySpa.App.getBasicDataName("country", Func.ToStr(row["country"]))
+                            </td>
+                            <td>@row["Phone"]</td>
+                            <td>@row["Email"]</td>
+                            <td>@row["ArriveDate"]</td>
+                            <td>@row["TourName"]</td>
+                            <td>
+                                <a class="" href="@Url.Action("Edit", "Order", new { id = row["orderid"] })">@row["orderid"]</a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+       
+    </div>
+    <div id="Detail">
+    </div>
+</div>

@@ -18,6 +18,9 @@ namespace BabySpa
         public static Hashtable timeTable = new Hashtable();
         public static Hashtable dicTable = new Hashtable();
         public static Hashtable sysMsg = new Hashtable();
+        public static DataTable globTexts;
+        public static Hashtable globTextsHT;
+        public static SortedList<string, DataBasic> dataBasic;
 
         public static string keydelm = "_";
         public const string REQUIRED = "Заавал оруулна уу!";
@@ -261,6 +264,117 @@ namespace BabySpa
         {
             return ConfigurationManager.AppSettings[key].ToString();
         }
+        public static List<SelectListItem> getSelectListFromTable(DataTable dt, string textColumn, string valueColumn, bool addempty = false)
+        {
+            List<SelectListItem> dataList = new List<SelectListItem>();
+            string selected = "";
+
+            if (addempty)
+            {
+                dataList.Add(new SelectListItem()
+                {
+                    Text = "",
+                    Value = "",
+                    Selected = true
+                });
+            }
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (!addempty && selected == "")
+                    {
+                        selected = Func.ToStr(row[valueColumn]);
+                    }
+                    dataList.Add(new SelectListItem()
+                    {
+                        Text = Func.ToStr(row[textColumn]),
+                        Value = Func.ToStr(row[valueColumn]),
+                        Selected = Func.ToStr(row[valueColumn]) == selected
+                    });
+                }
+            }
+            dataList.Sort((a, b) => string.Compare(a.Text, b.Text));
+            return dataList;
+        }
+
+        public static void InitGlobalizationTable(DataTable dt)
+        {
+            globTexts = dt;
+            if (globTextsHT != null && globTextsHT.Count > 0)
+            {
+                globTextsHT.Clear();
+            }
+            else
+                globTextsHT = new Hashtable();
+
+            string key = "";
+
+            foreach (DataRow row in dt.Rows)
+            {
+                key = Func.ToStr(row["TableName"]) + keydelm + Func.ToStr(row["ColumnName"]) + keydelm + Func.ToStr(row["KeyField"]) + keydelm + Func.ToStr(row["Lang"]);
+                globTextsHT.Add(key.ToLower(), row["TextValue"]);
+            }
+        }
+        public static string getBasicDataName(string type, string id)
+        {
+
+            string name = "";
+            if (dataBasic.ContainsKey(type + App.keydelm + id))
+            {
+                name = ((DataBasic)dataBasic[type + App.keydelm + id]).dataName;
+            }
+
+            return name;
+        }
+        public static List<SelectListItem> getBasicData(string type, bool sort = true, bool addempty = false)
+        {
+            List<SelectListItem> dataList = new List<SelectListItem>();
+            DataBasic item;
+            string culture = CultureHelper.GetCurrentCulture();
+            string selected = "";
+            if (addempty)
+            {
+                dataList.Add(new SelectListItem()
+                {
+                    Text = "",
+                    Value = "",
+                });
+            }
+            foreach (string key in dataBasic.Keys)
+            {
+
+                if (key.StartsWith(type))
+                {
+                    item = (DataBasic)dataBasic[key];
+                    if (selected == "")
+                    {
+                        selected = item.dataID;
+                    }
+                    dataList.Add(new SelectListItem()
+                    {
+                        Text = CultureHelper.GetRes("data_basic", "dataname", type + App.keydelm + item.dataID.ToString(), culture, item.dataName),
+                        Value = item.dataID,
+                        Selected = item.dataID == selected
+                    });
+                }
+            }
+            //dataList.Sort();
+            if (sort)
+            {
+                dataList.Sort((a, b) => string.Compare(a.Text, b.Text));
+            }
+            return dataList;
+        }
+        public static string getBasicDataNameWithCulture(string type, string id)
+        {
+            string ret = "";
+            if (dataBasic.ContainsKey(type + keydelm + id))
+            {
+                ret = CultureHelper.GetRes("data_basic", "dataname", type + App.keydelm + id, CultureHelper.GetCurrentCulture(), ((DataBasic)dataBasic[type + keydelm + id]).dataName);
+            }
+            return ret;
+        }
 
         #endregion
 
@@ -389,7 +503,14 @@ namespace BabySpa
             public string extra { get; set; }
             public string extra2 { get; set; }
         }
-
+        public class DataBasic
+        {
+            public string dataID { get; set; }
+            public string dataName { get; set; }
+            public string dataDesc { get; set; }
+            public string dataType { get; set; }
+            public string dataOrder { get; set; }
+        }
         public class SysConfig
         {
             public string config_key { get; set; }

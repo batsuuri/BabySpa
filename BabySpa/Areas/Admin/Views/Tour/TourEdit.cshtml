@@ -1,0 +1,475 @@
+﻿@using BabySpa;
+@using BabySpa.Core;
+
+
+@model BabySpa.Models.Tour
+
+@{
+    ViewBag.Title = "View";
+}
+@Styles.Render("~/Content/Vendors")
+@Html.Partial("_LeftMenu")
+<div class="col-md-10">
+    <div class="row">
+        <div class="panel panel-default bootstrap-admin-no-table-panel">
+            <div class="bootstrap-admin-no-table-panel-content bootstrap-admin-panel-content collapse in">
+                <div id="tabOrder" class="">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#orderTab" data-toggle="tab">Tour</a>
+                        </li>
+                        <li>
+                            <a href="#Itinerary" data-toggle="tab">Itinerary</a>
+                        </li>
+                        <li>
+                            <a href="#Staff" data-toggle="tab">Staff</a>
+                        </li>
+                        <li>
+                            <a href="#Transport" data-toggle="tab">Transport</a>
+                        </li>
+                        <li>
+                            <a href="#OtherDetails" data-toggle="tab">Other Details</a>
+                        </li>
+                        <li>
+                            <a class="" href="@Url.Action("photolist", "Tour", new { id = Model.TourId })">Photos</a>
+                        </li>
+                       
+                    </ul>
+                    <div class="tab-content clearfix">
+                        <div class="tab-pane active" id="orderTab">
+
+                            @using (Html.BeginForm("Edit", null, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="TOUR">
+                                <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.TourId)">
+                                <br />
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model.TourId)
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TourId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                        <label class = "control-label" >@Model.TourId</label>
+                                        </div>
+                                        @Html.LabelFor(model => model.TourSeason, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.DropDownListFor(m => m.TourSeason, new SelectList(
+                                                       new List<Object>{
+                                                                    new { value = 2017 , text = "2017"},
+                                                                    new { value = 2018 , text = "2018"},
+                                                                    new { value = 2019 , text = "2019"},
+                                                                    new { value = 2020 , text = "2020"},
+                                                                    new { value = 2021 , text = "2021"},
+                                                                    new { value = 2022, text = "2022"},
+                                                                    new { value = 2023 , text = "2023"}
+                                                         },
+                                                       "value",
+                                                       "text"), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.TourSeason, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TourName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.TourName, new { htmlAttributes = new { @class = "form-control", maxlength = 100 } })
+                                            @Html.ValidationMessageFor(model => model.TourName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.TourNameShort, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.TourNameShort, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                            @Html.ValidationMessageFor(model => model.TourNameShort, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.LabelFor(model => model.TourType, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.DropDownListFor(
+                                                           m => m.TourType,
+                                                           BabySpa.App.getBasicData("tourtype"), new { @class = "form-control" }
+                                                           )
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control datepicker" })
+                                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control datepicker" })
+                                            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 2, type = "number", min = "1", step = "1" } })
+                                            @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.LabelFor(model => model.NightCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.NightCount, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 2, type = "number", min = "1", step = "1" } })
+                                            @Html.ValidationMessageFor(model => model.NightCount, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.LabelFor(model => model.DayCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.DayCount, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 2, type = "number", min = "1", step = "1" } })
+                                            @Html.ValidationMessageFor(model => model.DayCount, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group">
+                    @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Destination, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Destination, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BasicInfo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.BasicInfo, new { @class = "form-control", rows = 5, maxlength = 4000 })
+                                            @Html.ValidationMessageFor(model => model.BasicInfo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Character, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.Character, new { @class = "form-control", rows = 5, maxlength = 4000 })
+                                            @Html.ValidationMessageFor(model => model.Character, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ShowInHome, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            <label class="uniform">
+                                                <input class="uniform_on" type="checkbox" id="ShowInHome" value="1" name="ShowInHome" @(Model.ShowInHome == 1 ? "checked='checked'" : "") />
+                                                <span class="normal" for="ShowInHome">Lets promote this tour</span>
+                                            </label>
+                                        </div>
+                                        @Html.LabelFor(model => model.CoverDateText, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.CoverDateText, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CoverText, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(model => model.CoverText, new { @class = "form-control", rows = 3, maxlength = 250 })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CoverTextAlign, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.DropDownListFor(m => m.CoverTextAlign, new SelectList(
+                                                       new List<Object>{
+                                                                    new { value = "left" , text = "left"},
+                                                                    new { value = "center" , text = "center"},
+                                                                    new { value = "right" , text = "right"}
+                                                         },
+                                                       "value",
+                                                       "text"), new { @class = "form-control" })
+                                        </div>
+                                        @Html.LabelFor(model => model.CoverDateTextAlign, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.DropDownListFor(m => m.CoverDateTextAlign, new SelectList(
+                                                       new List<Object>{
+                                                                    new { value = "left" , text = "left"},
+                                                                    new { value = "center" , text = "center"},
+                                                                    new { value = "right" , text = "right"}
+                                                         },
+                                                       "value",
+                                                       "text"), new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Select Cover Photo</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-default btn-file">
+                                                        Browse… <input type="file" id="imgInpSmall" name="fileCover" accept="image/*">
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly>
+                                            </div>
+                                            <img id='img-uploadSmall' />
+                                        </div>
+                                        <label class="control-label col-md-2">Current Cover Photo</label>
+                                        <div class="col-md-4">
+                                            @if (Func.ToStr(Model.CoverPhoto)!= "")
+                                            {
+                                                <img id='coverImage' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Model.CoverPhoto)" />
+                                            }
+                                        </div>
+                                    </div>
+                                    @Html.HiddenFor(model=>model.CoverPhoto)
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <label class="mt5 control-label">@BabySpa.App.getBasicDataName("tourstatus", Func.ToStr(Model.Status))</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MaxGroupSize, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.MaxGroupSize, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 2, type = "number", min = "0", step = "1" } })
+                                        </div>
+
+                                        @Html.LabelFor(model => model.MinGroupSize, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.MinGroupSize, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 2, type = "number", min = "0", step = "1" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CurrentEntrantCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.CurrentEntrantCount, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 2, type = "number", min = "0", step = "1" } })
+                                        </div>
+                                        @Html.LabelFor(model => model.SmallGroupCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.SmallGroupCount, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 2, type = "number", min = "0", step = "1" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Tour Price</label>
+                                        <div class="col-lg-4">
+                                            <div class="col-lg-8 pl0">
+                                                @Html.EditorFor(model => model.TourPrice, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 25, min = "0", step = "1" } })
+                                            </div>
+                                            <div class="col-lg-4 pl0 pr0">
+                                                @Html.DropDownListFor(
+                                                 m => m.TourCur,
+                                                 BabySpa.App.getCurList(),
+                                                  new { @class = "form-control" }
+                         )
+                                            </div>
+                                        </div>
+                                        <label class="col-lg-2 control-label">Price MNT</label>
+                                        <div class="col-lg-4">
+                                            @Html.EditorFor(m => m.TourPriceMNT, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 25, min = "0", step = "1" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Deposit, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.Deposit, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 25, min = "0", step = "1" } })
+                                            @Html.ValidationMessageFor(model => model.Deposit, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 25, min = "0", step = "1" } })
+                                            @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SmallGroupSupplement, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.SmallGroupSupplement, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 25, min = "0", step = "1" } })
+                                            @Html.ValidationMessageFor(model => model.SmallGroupSupplement, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.LabelFor(model => model.SingleSupplement, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.SingleSupplement, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 25, min = "0", step = "1" } })
+                                            @Html.ValidationMessageFor(model => model.SingleSupplement, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    @*<div class="form-group">
+                    @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+                                    <div class="form-group">
+                                        <div class="pull-right">
+                                            <div class="col-lg-12 btn-group">
+                                                <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                                <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" id="delete">Delete</button>
+                                                <button data-toggle="dropdown" name="submit" value="changestatus" class="btn btn-primary dropdown-toggle" id="changestatus">Change Status <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="../ChangeStatus/@Model.TourId~1">Open</a></li>
+                                                    <li><a href="../ChangeStatus/@Model.TourId~4">KickOff</a></li>
+                                                    <li><a href="../ChangeStatus/@Model.TourId~2">Completed</a></li>
+                                                    <li><a href="../ChangeStatus/@Model.TourId~5">Planned</a></li>
+                                                    <li><a href="../ChangeStatus/@Model.TourId~3">Cancel</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (Func.ToStr(ViewBag.Result) != "")
+                                    {
+                                        <div class="form-group alert alert-info mt10">
+                                            <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                            <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                                        </div>
+                                      }
+                                </div>
+                            }
+
+                            <div>
+                                <div class="col-lg-2">
+                                    @Html.ActionLink("Back to Search", "Index")
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Itinerary">
+                            <h3></h3>
+                            <div id="ItineraryContent">
+                                @Html.Action("Itinerary", "Tour", Model.TourId)
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Staff">
+                            <h3></h3>
+                            <div id="StaffContent">
+                                @Html.Action("StaffList", "Tour", Model.TourId)
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Transport">
+                            <h3></h3>
+                            <div id="TransportContent">
+                                @Html.Action("TransportList", "Tour", Model.TourId)
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Photo">
+                            <h3>We applied clearfix to the tab-content to rid of the gap between the tab and the content</h3>
+                        </div>
+                        <div class="tab-pane" id="OtherDetails">
+                            <h3></h3>
+                            <div id="DetailsContent">
+                                @Html.Action("OtherDetails", "Tour", Model.TourId)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TranslatorContent">
+    @Html.Action("Index", "Translator")
+</div>
+
+    @section scripts
+{
+        @Scripts.Render("~/bundles/vendors")
+@Scripts.Render("~/bundles/jqueryval")
+        @*@Scripts.Render("~/bundles/jqueryui")*@
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                $('#StartDate').datetimepicker({ format: 'L' });
+                $('#EndDate').datetimepicker({
+                    useCurrent: false, //Important! See issue #1075
+                    format: 'L'
+                });
+                $("#StartDate").on("dp.change", function (e) {
+                    $('#EndDate').data("DateTimePicker").minDate(e.date);
+                });
+                $("#EndDate").on("dp.change", function (e) {
+                    $('#StartDate').data("DateTimePicker").maxDate(e.date);
+                });
+
+                $(document).on("click", "input.form-control[type='text'][maxlength], textarea.form-control", function (e) {
+                    if (event.altKey) {
+                        col = this.name;
+                        form = $(this.form);
+                        table = form.find("[data-val-gl=true]")[0].value;
+                        key = form.find("[data-val-gl=true]")[1].value;
+                        if (table =="Tour_Info") {
+                            key = key + col;
+                            col = "InfoValue";
+                        }
+                        modal = $("#TranslatorModal");
+                        $("#TranslatorContent").load('@Url.Action("Index", "Translator")' + '?t=' + table + '&c=' + col + '&k=' + key);
+                        //$(modal).modal('show').draggable({ handle: ".modal-header" });
+                    }
+                });
+               
+                $(document).on("click", "[data-dismiss=modal]", function (e) {
+                    $("#TranslatorModal").removeClass("in").css("display", "none").attr("aria-hidden", "true");
+                    $("#TranslatorModal").modal('hide');
+                    
+                });
+                window.addEventListener("submit", function (e) {
+                    var form = e.target;
+                    if (form.getAttribute("enctype") === "multipart/form-data") {
+                        if (form.dataset.ajax) {
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+                            var xhr = new XMLHttpRequest();
+                            xhr.open(form.method, form.action);
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                    if (form.dataset.ajaxUpdate) {
+                                        var updateTarget = document.querySelector(form.dataset.ajaxUpdate);
+                                        if (updateTarget) {
+                                            updateTarget.innerHTML = xhr.responseText;
+                                        }
+                                    }
+                                }
+                            };
+                            xhr.send(new FormData(form));
+                        }
+                    }
+                }, true);
+                $(document).on('change', '.btn-file :file', function () {
+                    var input = $(this),
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                    input.trigger('fileselect', [label]);
+                });
+
+                $('.btn-file :file').on('fileselect', function (event, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = label;
+
+                    if (input.length) {
+                        input.val(log);
+                    } else {
+                        if (log) alert(log);
+                    }
+
+                });
+                function readURL(input, imgname) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $(imgname).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                $("#imgInp").change(function () {
+                    readURL(this, '#img-upload');
+                });
+                $("#imgInpSmall").change(function () {
+                    readURL(this, '#img-uploadSmall');
+                });
+
+            });
+        </script>
+    }

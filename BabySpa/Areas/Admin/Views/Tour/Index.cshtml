@@ -1,0 +1,201 @@
+﻿@using BabySpa.Areas.Admin.Models
+@using System.Data;
+@using BabySpa;
+@using BabySpa.Models;
+@model TourSearch
+@{
+    ViewBag.Title = "Tour List";
+}
+@Html.Partial("_LeftMenu")
+@Styles.Render("~/Content/Vendors")
+
+<div class="col-md-10">
+    @using (Html.BeginForm("Index", "Tour"))
+    {
+        <div class="row">
+            <div class="panel panel-default bootstrap-admin-no-table-panel">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">Tour Search</div>
+                </div>
+                <div class="bootstrap-admin-no-table-panel-content bootstrap-admin-panel-content collapse in">
+                    <div class="form-horizontal">
+                        <fieldset id="inputs">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="@Model.TourID">Tour ID</label>
+                                <div class="col-lg-4">
+                                    @Html.TextBoxFor(m => m.TourID, new { @class = "form-control" })
+                                </div>
+                                <label class="col-lg-2 control-label" for="@Model.TourName">Tour Name</label>
+                                <div class="col-lg-4">
+                                    @Html.TextBoxFor(m => m.TourName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="@Model.SStartDate">Start Date</label>
+                                <div class="col-lg-4">
+                                    @Html.TextBoxFor(m => m.SStartDate, new { @class = "form-control datepicker" })
+                                </div>
+                                <label class="col-lg-2 control-label" for="@Model.EStartDate"></label>
+                                <div class="col-lg-4">
+                                    @Html.TextBoxFor(m => m.EStartDate, new { @class = "form-control datepicker" })
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                <label class="col-lg-2 control-label" for="@Model.SEndDate">Complete Date</label>
+                                <div class="col-lg-4">
+                                    @Html.TextBoxFor(m => m.SEndDate, new { @class = "form-control datepicker" })
+                                </div>
+                                <label class="col-lg-2 control-label" for="@Model.EEndDate"></label>
+                                <div class="col-lg-4">
+                                    @Html.TextBoxFor(m => m.EEndDate, new { @class = "form-control datepicker" })
+                                </div>
+                            </div>*@
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="@Model.Status">Status</label>
+                                <div class="col-lg-10">
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="Status1" value="1" name="Status">
+                                        Open
+                                    </label>
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="Status2" value="2" name="Status">
+                                        Completed
+                                    </label>
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="Status3" value="3" name="Status">
+                                        Canceled
+                                    </label>
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="Status4" value="4" name="Status">
+                                        KickOff
+                                    </label>
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="Statu5s" value="5" name="Status">
+                                        Planned
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="@Model.TourType">Tour Type</label>
+                                <div class="col-lg-4">
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="TourType1" value="1" name="TourType">
+                                        Photo
+                                    </label>
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="TourType2" value="2" name="TourType">
+                                        Fishing
+                                    </label>
+                                    @*<label class="uniform">
+                        <input class="uniform_on" type="checkbox" id="TourType3" value="3" name="TourType">
+                        Custom
+                    </label>*@
+                                </div>
+                                <label class="col-lg-2 control-label" for="@Model.TourSeason">Tour Season</label>
+                                <div class="col-lg-4">
+                                    @Html.DropDownListFor(m => m.TourSeason, new SelectList(
+           new List<Object>{
+                                               new { value = 2017 , text = "2017"},
+                                               new { value = 2018 , text = "2018"},
+                                               new { value = 2019 , text = "2019"},
+                                               new { value = 2020 , text = "2020"},
+                                               new { value = 2021 , text = "2021"},
+                                               new { value = 2022, text = "2022"},
+                                               new { value = 2023 , text = "2023"}
+             },
+           "value",
+           "text",
+           selectedValue:DateTime.Now.Year), new { @class = "form-control" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-4">
+                                    @Html.ActionLink("NEW TOUR","New","Tour", new { }, new { @class= "btn btn-primary" })
+                                </div>
+                                <div class="col-lg-8 ">
+                                    <button type="submit" class="btn btn-primary pull-right">SEARCH</button>      
+                                    <button type="button" class="mr10 btn btn-primary pull-right" onclick="resetForm();">RESET</button>
+                                </div>
+                            </div>
+                            @{ if (Func.ToStr(ViewBag.Result) != "")
+                                {
+                                    <div class="form-group has-error">
+                                        <label class="control-label" for="inputError">@ViewBag.Result</label>
+                                    </div>
+                                }
+                            }
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="list">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">Tour List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")</div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tour ID</th>
+                                <th>Tour name</th>
+                                <th>Season</th>
+                                <th>Status</th>
+                                <th>Type</th>
+                                <th>Start Date</th>
+                                <th>Photos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.List != null)
+                            {
+                                foreach (Tour tour in Model.List)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a class="" href="@Url.Action("Edit", "Tour", new { id = tour.TourId })">@tour.TourId</a>
+                                        </td>
+                                        <td>@tour.TourName </td>
+                                        <td>@tour.TourSeason </td>
+                                        <td>
+                                            @BabySpa.App.getBasicDataName("tourstatus", tour.Status.ToString())
+                                        </td>
+                                        <td>
+                                            @BabySpa.App.getBasicDataName("tourtype", tour.TourType.ToString())
+                                        </td>
+                                        <td>@tour.StartDate</td>
+                                        <td>
+                                            <a class="" href="@Url.Action("photolist", "Tour", new { id = tour.TourId })">Photos</a>
+                                    </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+                                }
+</div>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/vendors")
+
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker').datetimepicker({format:'L'});
+            $('.datetimepicker').datetimepicker();
+        });
+        function resetForm() {
+            $('#inputs').find('input:text, input:password, input:file, textarea').val('');
+            $('#inputs').find('input:radio, input:checkbox')
+                 .removeAttr('checked').removeAttr('selected');
+        }
+    </script>
+}

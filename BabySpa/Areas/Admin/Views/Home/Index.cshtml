@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+@Html.Partial("_LeftMenu")
+
+
+<!-- content -->
+<div class="col-md-10">
+    <div class="row">
+        <div class="bootstrap-admin-content-title">
+            <h3>
+                Welcome to Mystic Mongolia Admin Panel
+            </h3>
+        </div>
+    </div>
+    <div class="row bootstrap-admin-no-edges-padding form-horizontal">
+        <div class="col-md-6 ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">Operations</div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            @Ajax.ActionLink("Refresh Tour Data", "RefreshTour", "Home", null,new AjaxOptions { UpdateTargetId = "Message", HttpMethod = "Post" }, new { @class = "btn btn-primary" })
+                        </div>
+                        <div class="col-lg-6">
+                            @Ajax.ActionLink("Refresh Bacis Data", "RefreshBasic", "Home", null, new AjaxOptions { UpdateTargetId = "Message", HttpMethod = "Post" }, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <div class="warning" id="Message">
+                            </div>
+                        </div>
+                    </div>
+                    @*<ul>
+                            <li>An admin theme built with <a href="http://getbootstrap.com" target="_blank">Bootstrap 3.x.</a></li>
+                            <li>Free for personal and commercial use</li>
+                            <li>Inspired by and based on <a href="https://github.com/meritoo/Bootstrap-3-Admin-Theme" target="_blank">Bootstrap-3-Admin-Theme by meritoo</a></li>
+                        </ul>*@
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">Copy Tour</div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @using(Html.BeginForm("Copy","Tour", FormMethod.Post, null))
+                    {
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Tour ID</label>
+                            <div class="col-lg-4">
+                                <input class="form-control" id="TourID" name="TourID" type="text" value="">
+                            </div>
+                            <label class="control-label col-md-2"> Tour Season</label>
+                            <div class="col-md-4">
+                                <select class="form-control" data-val="true" data-val-number="The field TourSeason must be a number." data-val-required="The TourSeason field is required." id="TourSeason" name="TourSeason">
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 pull-l6">
+                                <input type="submit" value="Copy Tour Info" />
+                                @*@Html.ActionLink("Copy Tour Info", "Copy", "Tour", null, new { @class = "btn btn-primary" })*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <div class="warning" id="iMessage">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row bootstrap-admin-no-edges-padding">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">About</div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @*<p>The MIT License (MIT)</p>
+                        <p>Copyright © 2013 - <a href="https://github.com/jrocket">jrocket</a></p>
+                        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+                        <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+                        <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="row bootstrap-admin-no-edges-padding">
+            <div class="col-md-6">
+                <div class="bs-docs-home">
+                    <div class="bs-masthead">
+                        <a href="http://getbootstrap.com" target="_blank">
+                            <h1>Bootstrap</h1>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6  text-center">
+                <div class="bs-docs-home">
+                    <div class="bs-masthead">
+                        <h1>
+                            <a href="https://plus.google.com/104619535782935711923" target="_blank">
+
+                                <img src="/img/jrocket.png" alt="Johnny Rocket">
+
+                            </a>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-urls bootstrap-admin-no-edges-padding">
+            <div class="col-md-6">
+                <a href="http://getbootstrap.com" target="_blank">Bootstrap 3.x</a>
+            </div>
+            <div class="col-md-6">
+                <a href="https://plus.google.com/104619535782935711923" target="_blank">Johnny Rocket</a>
+            </div>
+        </div>*@
+</div>

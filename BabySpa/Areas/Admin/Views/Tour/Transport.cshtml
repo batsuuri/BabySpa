@@ -1,0 +1,124 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model InfoViewModel
+@{ string actionname = Model.DisplayMode == "WriteOnly" ? "TransportInsert" : "TransportUpdate";}
+@using (Ajax.BeginForm(actionname, "Tour", null, new AjaxOptions { UpdateTargetId = "TransportContent", HttpMethod = "Post" }, new {id="transportform" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="text-muted bootstrap-admin-box-title">Transport List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")</div>
+        </div>
+        <div class="bootstrap-admin-panel-content">
+            @if (Model.List != null)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            Tranport Name
+                        </th>
+                        <th>
+                            Description on Tour
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.List)
+                    {
+                        <tr>
+                            <td>
+                                @Ajax.ActionLink(BabySpa.App.getDicTextValue("transport", item.InfoValue2),
+                         "TransportEdit",
+                         "Tour",
+                         new { id = Func.ToStr(item.InfoKey) },
+                         new AjaxOptions { UpdateTargetId = "TransportContent" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InfoValue)
+                            </td>
+                        </tr>
+                    }
+                 
+                </table>
+            }
+        </div>
+        @Html.HiddenFor(model => model.DisplayMode)
+        @Html.HiddenFor(model => model.TourID)
+        @Html.HiddenFor(model => model.InfoKey)
+        @Html.HiddenFor(model => model.InfoType)
+    </div>
+    <div class="form-horizontal" id="custForm">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="text-muted bootstrap-admin-box-title">Transport Detail</div>
+            </div>
+            <div class="bootstrap-admin-panel-content">
+                <div class="form-group">
+                    <div class="pull-right">
+                        <div class="col-lg-12">
+                            @if (Model.DisplayMode != "WriteOnly")
+                                {
+                                @Ajax.ActionLink("New",
+                                     "TransportNew",
+                                     "Tour",
+                                     new { id = Func.ToStr(Model.TourID) },
+                                     new AjaxOptions { UpdateTargetId = "TransportContent" }, new { @class = "btn btn-default" })
+                            }
+
+                            @if (Model.DisplayMode != "ReadOnly" && Model.CurrentInfo != null)
+                            {
+                                <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                            }
+                            @if (Model.DisplayMode == "EditOnly" && Model.CurrentInfo != null)
+                            {
+                                @Ajax.ActionLink("Delete",
+                                     "TransportDelete",
+                                     "Tour",
+                                     new { id = Func.ToStr(Model.CurrentInfo.InfoKey) },
+                                     new AjaxOptions { UpdateTargetId = "TransportContent" }, new { @class = "btn btn-warning" })
+                            }
+                        </div>
+                    </div>
+                </div>
+                @if (Model.CurrentInfo != null)
+                {
+                    @Html.HiddenFor(model => model.CurrentInfo.InfoKey)
+                    @Html.HiddenFor(model => model.CurrentInfo.TourID)
+
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Transport</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(
+                                    model => model.CurrentInfo.InfoValue2,
+                                    BabySpa.App.getSelectDicListByType("transport")
+                                    , new { @class = "form-control" }
+                                    )
+                        </div>
+                        <label class="control-label col-md-2">List Order</label>
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.CurrentInfo.InfoOrder, new { htmlAttributes = new { @class = "form-control", maxlength = 3, type = "number", min = "0", step = "1" } })
+                            @Html.ValidationMessageFor(model => model.CurrentInfo.InfoOrder, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Display Text</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.CurrentInfo.InfoValue, new { @class = "form-control", rows = 5, maxlength = 1000 })
+                            @Html.ValidationMessageFor(model => model.CurrentInfo.InfoValue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                   
+                }
+                @if (Func.ToStr(ViewBag.Result) != "")
+                {
+                    <div class="form-group alert alert-info mt10">
+                        <a class="close" data-dismiss="alert" href="#">&times;</a>
+                        <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

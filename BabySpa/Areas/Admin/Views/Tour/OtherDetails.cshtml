@@ -1,0 +1,106 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model TourDetailViewModel
+@*@using (Html.BeginForm("OtherDetailsUpdate", "Tour", null, FormMethod.Post, new { id = "detailform", enctype = "multipart/form-data" }))*@
+     
+@using (Ajax.BeginForm("OtherDetailsUpdate", "Tour", new { id = Model.TourID }, new AjaxOptions { UpdateTargetId = "DetailContent", HttpMethod = "Post" }, new { id = "detailform", enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal" id="otherdetailform">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="text-muted bootstrap-admin-box-title">Maps & Detail</div>
+            </div>
+            <div class="bootstrap-admin-panel-content">
+
+                @if (Model != null)
+                {
+                    <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="Tour_Info">
+                    <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.TourID+"_")">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.TourID)
+                    @Html.HiddenFor(model => model.MapPath)
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Select Map photo</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-default btn-file">
+                                        Browse… <input type="file" id="imgInp" name="file" accept="image/*">
+                                    </span>
+                                </span>
+                                <input type="text" class="form-control" readonly>
+                            </div>
+                            <img id='img-upload' />
+                        </div>
+                        <label class="control-label col-md-2">Current Map photo</label>
+                        <div class="col-md-4">
+                            @if (Func.ToStr(Model.MapPath) != "")
+                            {
+                                <img id='mapImage' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/"+Model.MapPath)" />
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Include</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Included, new { @class = "form-control", maxlength = 4000, rows = 8 })
+                            @Html.ValidationMessageFor(model => model.Included, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Not Include</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.NotIncluded, new { @class = "form-control", rows = 8, maxlength = 4000 })
+                            @Html.ValidationMessageFor(model => model.NotIncluded, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Packing List</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Package, new { @class = "form-control", rows = 10, maxlength = 4000 })
+                            @Html.ValidationMessageFor(model => model.Package, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Accommodation</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Accommodation, new { @class = "form-control", rows = 4, maxlength = 4000 })
+                            @Html.ValidationMessageFor(model => model.Accommodation, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Group Price</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.RangedPrice, new { @class = "form-control", rows = 1, maxlength = 250 })
+                            <p class="help-block">Format: PersonCount~Price;PersonCount~Price. (Example: 1~1800$;2~1700$;3~1650$;4-5~1600$;6-7~1500$)</p>
+                            @Html.ValidationMessageFor(model => model.RangedPrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Google Map Url</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.GoogleMapUrl, new { @class = "form-control", rows = 1, maxlength = 500 })
+                            <p class="help-block">Only src attribute here, not include texts such as 'iframe' etc. (Please use https://goo.gl/ for shorten url)</p>
+                            @Html.ValidationMessageFor(model => model.GoogleMapUrl, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="pull-right">
+                            <div class="col-lg-12">
+                                <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (Func.ToStr(ViewBag.Result) != "")
+                {
+                    <div class="form-group alert alert-info mt10">
+                        <a class="close" data-dismiss="alert" href="#">&times;</a>
+                        <label class="col-lg-10 control-label">@ViewBag.Result</label>
+                    </div>
+                 } 
+            </div>
+        </div>
+    </div>
+}

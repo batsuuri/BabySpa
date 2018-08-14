@@ -1,0 +1,333 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model GalleryViewModel
+@Styles.Render("~/Content/Vendors")
+@{
+    ViewBag.Title = "Gallerys";
+}
+@Html.Partial("_LeftMenu")
+<div class="col-md-10">
+    <div class="row">
+        <div class="panel panel-default bootstrap-admin-no-table-panel">
+            <div class="bootstrap-admin-no-table-panel-content bootstrap-admin-panel-content collapse in">
+                <div>
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#GalleryTab" data-toggle="tab">Gallery Detail</a>
+                        </li>
+                        @if (Model.CurrentGallery != null)
+                        {
+                            <li>
+                                <a href="#PhotoTab" data-toggle="tab">Photo</a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="tab-content clearfix">
+                        <div class="tab-pane active" id="GalleryTab">
+                            @{ string actionname = Model.DisplayMode == "WriteOnly" ? "Insert" : "Update";}
+                            @using (Html.BeginForm(actionname, "Gallery", null, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                            {
+                                <h3></h3>
+                                <div class="form-horizontal">
+
+                                    @Html.HiddenFor(model => model.GalleryID)
+                                    @Html.HiddenFor(model => model.DisplayMode)
+                                    @if (Model.CurrentGallery != null)
+                                    {
+                                        <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="Gallery">
+                                        <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.CurrentGallery.GalleryID)">
+                                        @Html.HiddenFor(model => model.CurrentGallery.GalleryID)
+                                        @Html.HiddenFor(model => model.CurrentGallery.CoverUrl)
+
+                                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Gallery Name</label>
+                                            <div class="col-md-4">
+                                                @Html.EditorFor(model => model.CurrentGallery.GalleryName, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                                                @Html.ValidationMessageFor(model => model.CurrentGallery.GalleryName, "", new { @class = "text-danger" })
+                                            </div>
+                                            <label class="control-label col-md-2">Publish Date</label>
+                                            <div class="col-md-4">
+                                                @Html.TextBoxFor(model => model.CurrentGallery.GalleryDate, new { @class = "form-control datepicker" })
+                                                @Html.ValidationMessageFor(model => model.CurrentGallery.GalleryDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Releated to</label>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(
+                                           model => model.CurrentGallery.GalleryType,
+                                            BabySpa.App.getBasicData("tourtype", false, true)
+                                           , new { @class = "form-control" }
+                                           )
+                                            </div>
+                                            <label class="control-label col-md-2">Category</label>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(
+                                           model => model.CurrentGallery.Category,
+                                            BabySpa.App.getBasicData("gallerycategory")
+                                           , new { @class = "form-control" }
+                                           )
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group">
+                                            <label class="control-label col-md-2">Tags</label>
+                                            <div class="col-md-10">
+                                                @Html.ListBoxFor(model => model.CurrentGallery.Tags, BabySpa.App.getBasicData("gallerytag"), new { @class = "listbox" })
+                                            </div>
+                                        </div>*@
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Autor</label>
+                                            <div class="col-md-4">
+                                                @Html.EditorFor(model => model.CurrentGallery.Author, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                                @Html.ValidationMessageFor(model => model.CurrentGallery.Author, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="uniform">
+                                                    Is featured Gallery? <input class="uniform_on" type="checkbox" id="IsFeatured" value="1" name="CurrentGallery.IsFeatured" @(Model.CurrentGallery.IsFeatured == 1 ? "checked='checked'" : "") />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Desc</label>
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(model => model.CurrentGallery.GalleryDesc, new { @class = "form-control", rows = 3, maxlength = 4000 })
+                                                @Html.ValidationMessageFor(model => model.CurrentGallery.GalleryDesc, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Select photo# </label>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn-file">
+                                                            Browse… <input type="file" id="imgInp" name="file" accept="image/*">
+                                                        </span>
+                                                    </span>
+                                                    <input type="text" class="form-control" readonly>
+                                                </div>
+                                                @if (Func.ToStr(Model.CurrentGallery.CoverUrl) != "")
+                                                {
+                                                    <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Model.CurrentGallery.CoverUrl)" />
+                                                }
+                                                else
+                                                {
+                                                    <img id='img-upload' class="imagePreview" />
+                                                }
+                                            </div>
+                                            <label class="control-label col-md-2">Select photo# (small)</label>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn-file">
+                                                            Browse… <input type="file" id="imgInps" name="fileSmall" accept="image/*">
+                                                        </span>
+                                                    </span>
+                                                    <input type="text" class="form-control" readonly>
+                                                </div>
+                                                @if (Func.ToStr(Model.CurrentGallery.CoverUrl) != "")
+                                                {
+                                                    <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Helper.GetPreviewImageUrl(Model.CurrentGallery.CoverUrl, false))" />
+                                                }
+                                                else
+                                                {
+                                                    <img id='img-upload' class="imagePreview" />
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="form-group">
+                                        <div class="pull-right">
+                                            <div class="col-lg-12">
+                                                @if (Model.DisplayMode != "WriteOnly")
+                                                {
+                                                    @Html.ActionLink("New Gallery", "New", "Gallery", null, new { @class = "btn btn-default" })
+                                                }
+
+                                                @if (Model.DisplayMode != "ReadOnly" && Model.CurrentGallery != null)
+                                                {
+                                                    <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                                }
+                                                @if (Model.DisplayMode == "EditOnly" && Model.CurrentGallery != null)
+                                                {
+                                                    <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" id="delete">Delete</button>
+                                                    <div id="myModal" class="modal fade" role="dialog">
+                                                        <div class="modal-dialog">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    <h4 class="modal-title">Delete Gallery</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <b>You realy wanna delete this Gallery?</b>
+                                                                    <br /><i>Delete operation is cannot undo!!!</i>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                    @Html.ActionLink("Delete anyway", "Delete", "Gallery", new { id = Model.CurrentGallery.GalleryID }, new { @class = "btn btn-default" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if (Func.ToStr(ViewBag.Result) != "")
+                                    {
+                                        <div class="form-group alert alert-info mt10">
+                                            <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                            <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="panel panel-default" id="GalleryDesc">
+                                    <div class="panel-heading">
+                                        <div class="text-muted bootstrap-admin-box-title">
+                                            Gallery List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")
+                                        </div>
+                                    </div>
+                                    <div class="bootstrap-admin-panel-content">
+                                        @if (Model.List != null)
+                {
+                                            <table class="table">
+                                                <tr>
+                                                    <th>
+                                                        Gallery Name
+                                                    </th>
+                                                    <th>
+                                                        Category
+                                                    </th>
+                                                    <th>
+                                                        Date
+                                                    </th>
+                                                </tr>
+
+                                                @foreach (var item in Model.List)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.ActionLink(item.GalleryName, "Edit", "Gallery", new { id = item.GalleryID }, null)
+                                                        </td>
+                                                        <td>
+                                                            @BabySpa.App.getBasicDataName("Gallerycategory", Func.ToStr(item.Category))
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.GalleryDate)
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        }
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                        <div class="tab-pane" id="PhotoTab">
+                            <h3></h3>
+                            <div id="PhotoContent">
+                                @if (Model.CurrentGallery != null)
+                                {
+                                    @Html.Action("PhotoList", "Gallery", new { id = Model.GalleryID })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="TranslatorContent">
+    @Html.Action("Index", "Translator")
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/vendors")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#CurrentPhoto_Tags').multiselect();
+        });
+        function InitListBox() {
+            $('#CurrentPhoto_Tags').multiselect();
+        }
+        $(function () {
+            $(document).on("click", "input.form-control[type='text'][maxlength], textarea.form-control", function (e) {
+                if (event.altKey) {
+                    col = this.name;
+                    form = $(this.form);
+                    table = form.find("[data-val-gl=true]")[0].value;
+                    key = form.find("[data-val-gl=true]")[1].value;
+                    modal = $("#TranslatorModal");
+                    $("#TranslatorContent").load('@Url.Action("Index", "Translator")' + '?t=' + table + '&c=' + col + '&k=' + key);
+                    //$(modal).modal('show').draggable({ handle: ".modal-header" });
+                }
+            });
+
+            $(document).on("click", "[data-dismiss=modal]", function (e) {
+                $("#TranslatorModal").removeClass("in").css("display", "none").attr("aria-hidden", "true");
+                $("#TranslatorModal").modal('hide');
+
+            });
+            $('.datepicker').datetimepicker({ format: 'L' });
+            $(document).on('change', '.btn-file :file', function () {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+                readURL(this);
+            });
+            $('.listbox').multiselect();
+            window.addEventListener("submit", function (e) {
+                var form = e.target;
+                if (form.getAttribute("enctype") === "multipart/form-data") {
+                    if (form.dataset.ajax) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        var xhr = new XMLHttpRequest();
+                        xhr.open(form.method, form.action);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                if (form.dataset.ajaxUpdate) {
+                                    var updateTarget = document.querySelector(form.dataset.ajaxUpdate);
+                                    if (updateTarget) {
+                                        updateTarget.innerHTML = xhr.responseText;
+                                    }
+                                }
+                            }
+                        };
+                        xhr.send(new FormData(form));
+                    }
+                }
+            }, true);
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(input).closest('div').next('img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,250 @@
+﻿@using BabySpa;
+
+@model BabySpa.Models.Customer
+
+@using (Ajax.BeginForm("Edit", "Customer", new AjaxOptions { UpdateTargetId = "custForm", HttpMethod = "Post" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal" id="custForm">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="text-muted bootstrap-admin-box-title">Customer Detail</div>
+            </div>
+            <div class="bootstrap-admin-panel-content">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.CustID)
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.FName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <div class="col-md-4 pl0">
+                            @Html.DropDownListFor(
+                               m => m.Title,
+                               BabySpa.App.getBasicData("title"), new { @class = "form-control col-md-1" }
+                               )
+                        </div>
+                        <div class="col-md-8 pl0 pr0">
+                            @Html.EditorFor(model => model.FName, new { htmlAttributes = new { @class = "form-control col-md-3", maxlength = 50 } })
+                            @Html.ValidationMessageFor(model => model.FName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @Html.LabelFor(model => model.LName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.LName, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                        @Html.ValidationMessageFor(model => model.LName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="radio">
+                        <label><input type="radio" name="optradio">Option 1</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">Option 2</label>
+                    </div>*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <label class="radio-inline">@Html.RadioButtonFor(m => m.Gender, "1")Male</label>
+                        <label class="radio-inline">@Html.RadioButtonFor(m => m.Gender, "0")Female</label>
+                        @*@Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })*@
+                    </div>
+                    @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.BirthDate, new  { @class = "form-control datepicker"})
+                        @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nationality, htmlAttributes: new { @class = "control-label col-md-2"})
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Nationality, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                    </div>
+                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                               m => m.Country,
+                               BabySpa.App.getBasicData("country"), new { @class = "form-control" }
+                               )
+                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                        </div>*@
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", rows = 3, maxlength = 150 })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SocialID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SocialID, new { htmlAttributes = new { @class = "form-control", maxlength = 250 } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PassportNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.PassportNo, new { htmlAttributes = new { @class = "form-control", maxlength = 20 } })
+                    </div>
+                    @Html.LabelFor(model => model.PassportValidDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.PassportValidDate, new { htmlAttributes = new { @class = "form-control", maxlength = 20 } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Languages, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Languages, new { htmlAttributes = new { @class = "form-control" }, maxlength = 50 })
+                    </div>
+                    @Html.LabelFor(model => model.RegDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <p class="mt5">@Model.RegDate</p>
+                    </div>
+                </div>
+
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.MembershipID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MembershipID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MembershipID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+                <hr />
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Tour Name</label>
+                    <div class="col-lg-10">
+                        <a class="control-label pull-left" href="@Url.Action("Index", "Tour", new { id = ViewBag.TourID })">@ViewBag.TourName  @ViewBag.TourDate</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.JoinGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <label class="uniform">
+                            <input class="uniform_on" type="checkbox" id="JoinGroup" value="1" name="JoinGroup" @(Model.JoinGroup == 1 ? "checked='checked'" : "") />
+                        </label>
+                        <label class="uniform pl20">
+                            Is Group Leader <input class="uniform_on" type="checkbox" id="IsGroupLeader" value="1" name="IsGroupLeader" @(Model.IsGroupLeader == 1 ? "checked='checked'" : "") />
+                        </label>
+
+                    </div>
+                    <label class="col-lg-2 control-label">Group #</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                               m => m.GroupID,
+                               (List<SelectListItem>)ViewBag.GroupList, new { @class = "form-control" }
+                               )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ArriveDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ArriveDate, new { @class = "form-control datetimepicker"})
+                        @Html.ValidationMessageFor(model => model.ArriveDate, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.DepartureDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.DepartureDate, new  { @class = "form-control datetimepicker" })
+                        @Html.ValidationMessageFor(model => model.DepartureDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-6 control-label">Flight to UB required?      <input class="uniform_on" type="checkbox" id="UBFlightRequired" value="1" name="UBFlightRequired" @(Model.UBFlightRequired == 1 ? "checked='checked'" : "") /></label>
+                    <label class="col-lg-6 control-label">
+                        Extra Room Required in UB?
+                        <input class="uniform_on" type="checkbox" id="ExtraRoomRequired" value="1" name="ExtraRoomRequired" @(Model.ExtraRoomRequired == 1 ? "checked='checked'" : "") />
+                    </label>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MedicalCondition, htmlAttributes: new { @class = "control-label col-md-2"})
+                    <div class="col-md-4">
+                        @Html.TextAreaFor(model => model.MedicalCondition, new { @class = "form-control", rows = 3, maxlength = 1000 })
+                    </div>
+                    @Html.LabelFor(model => model.MealRequirement, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextAreaFor(model => model.MealRequirement, new { @class = "form-control", rows = 3, maxlength = 1000 })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", rows = 3, maxlength = 4000 })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AdminNote, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.AdminNote, new { @class = "form-control", rows = 3, maxlength = 1000 })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Main reason of choose us?</label>
+                    <div class="col-md-4">
+                        <p class="mt5">@Model.WhyChooseReason</p>
+                    </div>
+                    <label class="col-lg-2 control-label">Hear about us from?</label>
+                    <div class="col-md-4">
+                        <p class="mt5">@BabySpa.App.getBasicDataName("hearus", Func.ToStr(Model.HearUS))</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 text-right">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+                @{ if (Func.ToStr(ViewBag.Result) != "")
+                {
+                        <div class="form-group alert alert-info mt10">
+                            <a class="close" data-dismiss="alert" href="#">&times;</a>
+                            <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    }

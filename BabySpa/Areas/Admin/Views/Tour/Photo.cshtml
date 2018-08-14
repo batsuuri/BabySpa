@@ -1,0 +1,276 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model TourPhotosModel
+@Styles.Render("~/Content/Vendors")
+@{
+    ViewBag.Title = "Tour Photos";
+}
+@Html.Partial("_LeftMenu")
+<div class="col-md-10">
+    <div class="row">
+        @{ string actionname = Model.DisplayMode == "WriteOnly" ? "PhotoInsert" : "PhotoUpdate";}
+        @using (Html.BeginForm(actionname, "Tour", null, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            <div class="form-horizontal" id="custForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">Photo Detail</div>
+                        @Html.ActionLink("Tour Detail", "Edit", "Tour", new { id = Model.TourID }, null)
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                      
+                        @if (Model.CurrentPhoto != null)
+                {
+                            <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="Tour_Photo">
+                            <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.TourID+"_"+Model.CurrentPhoto.PhotoID)">
+                            @Html.HiddenFor(model => model.CurrentPhoto.PhotoID)
+                            @Html.HiddenFor(model => model.CurrentPhoto.PhotoUrl)
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Day of Itinerary</label>
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(
+                                    model => model.CurrentPhoto.DayNo,
+                                    Model.Days
+                                    , new { @class = "form-control" }
+                                    )
+                                </div>
+                                <label class="control-label col-md-2">Photo Name</label>
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.CurrentPhoto.PhotoName, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentPhoto.PhotoName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Photo Desc</label>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.CurrentPhoto.PhotoDesc, new { @class = "form-control", rows = 2, maxlength = 150 })
+                                    <p class="help-block">Brief description, author, datetaken, place etc</p>
+                                    @Html.ValidationMessageFor(model => model.CurrentPhoto.PhotoDesc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Select photo</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                Browse… <input type="file" id="imgInp" name="file" accept="image/*">
+                                            </span>
+                                        </span>
+                                        <input type="text" class="form-control" readonly>
+                                    </div>
+                                    <img id='img-upload' />
+                                </div>
+                                <label class="control-label col-md-2">Current photo</label>
+                                <div class="col-md-4">
+                                    @if (Func.ToStr(Model.CurrentPhoto.PhotoUrl) != "")
+                                    {
+                                        <img id='Image' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/"+ Model.CurrentPhoto.PhotoUrl)" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Select preview(small) photo</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                Browse… <input type="file" id="imgInpSmall" name="fileSmall" accept="image/*">
+                                            </span>
+                                        </span>
+                                        <input type="text" class="form-control" readonly>
+                                    </div>
+                                    <img id='img-uploadSmall' />
+                                </div>
+                                <label class="control-label col-md-2">Current preview photo</label>
+                                <div class="col-md-4">
+                                    @if (Func.ToStr(Model.CurrentPhoto.PhotoUrl) != "")
+                                    {
+                                        <img id='smallImage' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Helper.GetPreviewImageUrl(Model.CurrentPhoto.PhotoUrl,false))" />
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <div class="col-lg-12">
+                                    @if (Model.DisplayMode != "WriteOnly")
+                                    {
+                                        @Html.ActionLink("New Photo", "PhotoNew", "Tour", new { id = Model.TourID }, new { @class = "btn btn-default" })
+                                    }
+
+                                    @if (Model.DisplayMode != "ReadOnly" && Model.CurrentPhoto != null)
+                                    {
+                                        <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                    }
+                                    @if (Model.DisplayMode == "EditOnly" && Model.CurrentPhoto != null)
+                                    {
+                                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" id="delete">Delete</button>
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Delete Photo</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b>You realy wanna delete this photo?</b>
+                                                        <br /><i>Delete operation is cannot undo!!!</i>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        @Html.ActionLink("Delete anyway", "PhotoDelete", "Tour", new { id = Model.CurrentPhoto.PhotoID }, new { @class = "btn btn-default" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @if (Func.ToStr(ViewBag.Result) != "")
+                {
+                            <div class="form-group alert alert-info mt10">
+                                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="PhotoContent">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">
+                        Photo List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")
+                        @Html.ActionLink("Tour Detail", "Edit", "Tour", new { id = Model.TourID }, null)
+                    </div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @if (Model.List != null)
+                    {
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Photo Name
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Day No of Itinerary
+                                </th>
+                                <th>
+                                    Picture
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model.List)
+                    {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.PhotoName, "PhotoEdit", "Tour", new { id = item.PhotoID },null)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhotoDesc)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DayNo)
+                                    </td>
+                                    <td>
+                                        @if (Func.ToStr(item.PhotoUrl) != "")
+                                        {
+                                            <img class="imagePreview" src="@(Url.Content("~/") + "Content/tour/"+Helper.GetPreviewImageUrl(item.PhotoUrl))" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+                </div>
+                @Html.HiddenFor(model => model.DisplayMode)
+                @Html.HiddenFor(model => model.TourID)
+                @Html.HiddenFor(model => model.PhotoID)
+            </div>
+            
+        }
+    </div>
+</div>
+
+<div id="TranslatorContent">
+    @Html.Action("Index", "Translator")
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/vendors")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+    $(function () {
+        $(document).on("click", "input.form-control[type='text'][maxlength], textarea.form-control", function (e) {
+            if (event.altKey) {
+                col = this.name;
+                form = $(this.form);
+                table = form.find("[data-val-gl=true]")[0].value;
+                key = form.find("[data-val-gl=true]")[1].value;
+                if (table == "Tour_Info") {
+                    key = key + col;
+                    col = "InfoValue";
+                }
+                modal = $("#TranslatorModal");
+                $("#TranslatorContent").load('@Url.Action("Index", "Translator")' + '?t=' + table + '&c=' + col + '&k=' + key);
+                //$(modal).modal('show').draggable({ handle: ".modal-header" });
+            }
+        });
+
+        $(document).on("click", "[data-dismiss=modal]", function (e) {
+            $("#TranslatorModal").removeClass("in").css("display", "none").attr("aria-hidden", "true");
+            $("#TranslatorModal").modal('hide');
+
+        });
+
+        $(document).on('change', '.btn-file :file', function () {
+            var input = $(this),
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [label]);
+        });
+
+        $('.btn-file :file').on('fileselect', function (event, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+        function readURL(input, imgname) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $(imgname).attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this, '#img-upload');
+        });
+        $("#imgInpSmall").change(function () {
+            readURL(this, '#img-uploadSmall');
+        });
+
+    });
+    </script>
+}

@@ -1,0 +1,276 @@
+﻿@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model StaffViewModel
+@Styles.Render("~/Content/Vendors")
+@{
+    ViewBag.Title = "Tour Staff";
+}
+@Html.Partial("_LeftMenu")
+<div class="col-md-10">
+    <div class="row">
+        @{ string actionname = Model.DisplayMode == "WriteOnly" ? "Insert" : "Update";}
+        @using (Html.BeginForm(actionname, "Staff", null, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            <div class="form-horizontal" id="custForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">Staff Detail</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                        @Html.HiddenFor(model => model.StaffID)
+                        @Html.HiddenFor(model => model.DisplayMode)
+                        @if (Model.CurrentStaff != null)
+                        {
+                            <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="SysUser">
+                            <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.CurrentStaff.StaffID)">
+                            @Html.HiddenFor(model => model.CurrentStaff.StaffID)
+                            for (int i = 0; i < Model.CurrentStaff.PhotoUrl.Count(); i++)
+                            {
+                                @Html.HiddenFor(model => model.CurrentStaff.PhotoUrl[i])
+                            }
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">First Name</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentStaff.StaffFName, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentStaff.StaffFName, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">Last Name</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentStaff.StaffLName, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentStaff.StaffLName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                         
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Description</label>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.CurrentStaff.StaffDesc, new { @class = "form-control", rows = 3, maxlength = 1000 })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">EMail</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentStaff.EMail, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentStaff.EMail, "", new { @class = "text-danger" })
+                                </div>
+                                <label class="control-label col-md-2">Phone</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentStaff.Phone, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                    @Html.ValidationMessageFor(model => model.CurrentStaff.Phone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Position</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.CurrentStaff.Position, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                </div>
+                                <label class="control-label col-md-2">Is Active</label>
+                                <div class="col-md-4">
+                                    <label class="uniform">
+                                        <input class="uniform_on" type="checkbox" id="isActive" value="1" name="CurrentStaff.isActive" @(Model.CurrentStaff.isActive == 1 ? "checked='checked'" : "") />
+                                    </label>
+                                </div>
+                            </div>
+                          
+                            for (int i = 0; i < Model.CurrentStaff.PhotoUrl.Count(); i++)
+                            {
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Select photo#[@(i)]</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file">
+                                                    Browse… <input type="file" id="imgInp[@(i)] " name="file" accept="image/*">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        @if (Func.ToStr(Model.CurrentStaff.PhotoUrl[i]) != "")
+                                        {
+                                            <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Model.CurrentStaff.PhotoUrl[i])" />
+                                        }
+                                        else
+                                        {
+                                            <img id='img-upload' class="imagePreview" />
+                                        }
+                                    </div>
+                                    <label class="control-label col-md-2">Select photo#[@(i)] (small)</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default btn-file">
+                                                    Browse… <input type="file" id="imgInp[@(i)]s" name="fileSmall" accept="image/*">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                        @if (Func.ToStr(Model.CurrentStaff.PhotoUrl[i]) != "")
+                                        {
+                                            <img id='img-upload' class="imagePreview" src="@(Url.Content("~/") + "Content/tour/" + Helper.GetPreviewImageUrl(Model.CurrentStaff.PhotoUrl[i],false))" />
+                                        }
+                                        else
+                                        {
+                                            <img id='img-upload' class="imagePreview" />
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <div class="col-lg-12">
+                                    @if (Model.DisplayMode != "WriteOnly")
+                                    {
+                                        @Html.ActionLink("New Staff", "New", "Staff", null, new { @class = "btn btn-default" })
+                                    }
+
+                                    @if (Model.DisplayMode != "ReadOnly" && Model.CurrentStaff != null)
+                                    {
+                                        <button type="submit" name="submit" class="btn btn-primary" value="save" id="save">Save</button>
+                                    }
+                                    @if (Model.DisplayMode == "EditOnly" && Model.CurrentStaff != null)
+                                    {
+                                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary" id="delete">Delete</button>
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Delete Staff</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <b>You realy wanna delete this Staff?</b>
+                                                        <br /><i>Delete operation is cannot undo!!!</i>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        @Html.ActionLink("Delete anyway", "Delete", "Staff", new { id = Model.CurrentStaff.StaffID }, new { @class = "btn btn-default" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @if (Func.ToStr(ViewBag.Result) != "")
+                        {
+                            <div class="form-group alert alert-info mt10">
+                                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                                <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="StaffContent">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">
+                        Staff List @(Model.List != null ? ":  " + Model.List.Count + " records found." : "")
+                    </div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    @if (Model.List != null)
+                {
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Staff Name
+                                </th>
+                                <th>
+                                    Contact
+                                </th>
+                                <th>
+                                    Position
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model.List)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.StaffFName + " " + item.StaffLName, "Edit", "Staff", new { id = item.StaffID }, null)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EMail)
+                                        <br />
+                                        @Html.DisplayFor(modelItem => item.Phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Position)
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div id="TranslatorContent">
+    @Html.Action("Index", "Translator")
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/vendors")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $(document).on("click", "input.form-control[type='text'][maxlength], textarea.form-control", function (e) {
+                if (event.altKey) {
+                    col = this.name;
+                    form = $(this.form);
+                    table = form.find("[data-val-gl=true]")[0].value;
+                    key = form.find("[data-val-gl=true]")[1].value;
+                    modal = $("#TranslatorModal");
+                    $("#TranslatorContent").load('@Url.Action("Index", "Translator")' + '?t=' + table + '&c=' + col + '&k=' + key);
+                    //$(modal).modal('show').draggable({ handle: ".modal-header" });
+                }
+            });
+
+            $(document).on("click", "[data-dismiss=modal]", function (e) {
+                $("#TranslatorModal").removeClass("in").css("display", "none").attr("aria-hidden", "true");
+                $("#TranslatorModal").modal('hide');
+
+            });
+            $(document).on('change', '.btn-file :file', function () {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+                readURL(this);
+            });
+
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(input).closest('div').next('img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+}

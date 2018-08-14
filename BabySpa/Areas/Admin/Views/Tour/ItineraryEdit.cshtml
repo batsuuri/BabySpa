@@ -1,0 +1,286 @@
+﻿@using BabySpa;
+
+@model BabySpa.Models.Itinerary
+
+@using (Ajax.BeginForm("ItineraryEdit", "Tour", new AjaxOptions { UpdateTargetId = "IDetail", HttpMethod = "Post" }))
+{
+    @Html.AntiForgeryToken()
+    <input data-val-gl="true" id="Glob_TableName" name="Glob_TableName" type="hidden" value="TOUR_ITINERARY">
+    <input data-val-gl="true" id="Glob_KeyField" name="Glob_KeyField" type="hidden" value="@(Model.TourId + "_"+Model.ItineraryID)">
+    <div class="form-horizontal" id="IDetail">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="text-muted bootstrap-admin-box-title">Detail</div>
+            </div>
+            <div class="bootstrap-admin-panel-content">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ItineraryID)
+                @Html.HiddenFor(model => model.TourId)
+                @{
+                    var listDest = BabySpa.App.getSelectDicListByType("destination", true);
+                    var listAccomm = BabySpa.App.getSelectDicListByType("accommodation", true);
+                    var listFood = BabySpa.App.getSelectDicListByType("food", true);
+                }
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.DayNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.DayNo, new { htmlAttributes = new { @class = "form-control", maxlength = 10 } })
+                        @Html.ValidationMessageFor(model => model.DayNo, "", new { @class = "text-danger" })
+
+                    </div>
+                    <label class="control-label col-md-3"># List Order</label>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.OrderNo, new { htmlAttributes = new { @class = "form-control text-right", maxlength = 3, type = "number", min = "0", step = "1" } })
+                        @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Texts, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Texts, new { @class = "form-control", rows = 5, maxlength = 4000 })
+                        @Html.ValidationMessageFor(model => model.Texts, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Hint, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Hint, new { @class = "form-control", rows = 2, maxlength = 200 })
+                        @Html.ValidationMessageFor(model => model.Hint, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Transport, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(
+                                    m => m.Transport.dataID,
+                                    BabySpa.App.getSelectDicListByType("transport", true)
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(
+                                    m => m.Destination.dataID,
+                                    listDest,
+                                    new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Distance, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Distance, new { htmlAttributes = new { @class = "form-control", maxlength = 20 } })
+                        @Html.ValidationMessageFor(model => model.Distance, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" }, maxlength = 20 })
+                        @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Accommodation, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                                    m => m.Accommodation.dataID,
+                                    listAccomm
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+
+                    @Html.LabelFor(model => model.BreakFast, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(
+                                    m => m.BreakFast.dataID,
+                                    listFood
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Lunch, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                                    m => m.Lunch.dataID,
+                                    listFood
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                    @Html.LabelFor(model => model.Dinner, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(
+                                    m => m.Dinner.dataID,
+                                    listFood
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Destination2, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(
+                                    m => m.Destination2.dataID,
+                                    listDest
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Distance2, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Distance2, new { htmlAttributes = new { @class = "form-control", maxlength = 20 } })
+                    </div>
+                    @Html.LabelFor(model => model.Duration2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Duration2, new { htmlAttributes = new { @class = "form-control" }, maxlength = 20 })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Accommodation2, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                                    m => m.Accommodation2.dataID,
+                                    listAccomm
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                    @Html.LabelFor(model => model.BreakFast2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(
+                                    m => m.BreakFast2.dataID,
+                                    listFood,
+                                    new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Lunch2, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                                    m => m.Lunch2.dataID,
+                                    listFood
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                    @Html.LabelFor(model => model.Dinner2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(
+                                    m => m.Dinner2.dataID,
+                                    listFood,
+                                    new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Destination3, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(
+                                    m => m.Destination3.dataID,
+                                    listDest
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Distance3, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Distance3, new { htmlAttributes = new { @class = "form-control", maxlength = 20 } })
+                    </div>
+                    @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Duration3, new { htmlAttributes = new { @class = "form-control" }, maxlength = 20 })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Accommodation3, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                                    m => m.Accommodation3.dataID,
+                                    listAccomm
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+
+                    @Html.LabelFor(model => model.BreakFast3, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(
+                                    m => m.BreakFast3.dataID,
+                                    listFood
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Lunch3, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                                    m => m.Lunch3.dataID,
+                                    listFood
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                    @Html.LabelFor(model => model.Dinner3, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(
+                                    m => m.Dinner3.dataID,
+                                    listFood
+                                    , new { @class = "form-control" }
+                                    )
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-9 col-md-3 right">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+
+                        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default" id="delete">Delete</button>
+                        <div id="myModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Delete Photo</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <b>You realy wanna delete this photo?</b>
+                                        <br /><i>Delete operation is cannot undo!!!</i>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        @Ajax.ActionLink("Delete anyway",
+                                         "ItineraryDelete",
+                                         "Tour",
+                                         new  {id=Model.ItineraryID,tourId=Model.TourId },
+                                         new AjaxOptions { UpdateTargetId = "ItineraryContent", HttpMethod = "Post" },
+                                         new { @class = "btn btn-default" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @{ if (Func.ToStr(ViewBag.Result) != "")
+                {
+                        <div class="form-group alert alert-info mt10">
+                            <a class="close" data-dismiss="alert" href="#">&times;</a>
+                            <label class="col-lg-10 control-label" for="inputError" id="ResultMessage">@ViewBag.Result</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+                    }

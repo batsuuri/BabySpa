@@ -1,0 +1,59 @@
+﻿@using BabySpa.Models;
+@using BabySpa.Areas.Admin.Models;
+@using BabySpa;
+@model ItineraryViewModel
+<div class="row" id="list">
+    <div class="panel panel-default col-md-3 pull-left pl0 pr0">
+        <div class="panel-heading">
+            <div class="text-muted bootstrap-admin-box-title">List</div>
+        </div>
+        <div class="bootstrap-admin-panel-content">
+            <table class="table" id="table">
+                <tr>
+                    <th>
+                        DayNo
+                    </th>
+                    <th>
+                        Subject
+                    </th>
+                </tr>
+                @if (Model.List != null)
+                {
+                    foreach (Itinerary item in Model.List)
+                    {
+                        <tr class="@(Model.ItineraryID == item.ItineraryID ? "success" : "")">
+                            <td>
+                                @item.DayNo
+                            </td>
+                            <td>
+                                @Ajax.ActionLink(@item.Subject.PadRight(15, ' ').Substring(0, 15) + "...",
+                                             "ItineraryEdit",
+                                             "Tour",
+                                             new { id = Func.ToStr(item.ItineraryID) },
+                                             new AjaxOptions { UpdateTargetId = "formItinerary" })
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+            <div>
+                @Ajax.ActionLink("Refresh",
+                         "Itinerary",
+                         "Tour",
+                         new { id = Func.ToStr(Model.TourID) },
+                         new AjaxOptions { UpdateTargetId = "ItineraryContent" }, new { @class = "btn btn-default" })
+                @Ajax.ActionLink("NEW",
+                         "ItineraryNew",
+                         "Tour",
+                         new { id = Func.ToStr(Model.TourID) },
+                         new AjaxOptions { UpdateTargetId = "formItinerary" }, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 pull-right pl0 pr0">
+        <div id="formItinerary">
+
+        </div>
+    </div>
+
+</div>
